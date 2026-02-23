@@ -15,7 +15,6 @@
 </p>
 
 <p align="center">
-  <a href="https://serenity.aobp.cn/">在线演示</a> · 
   <a href="#页面模板">页面一览</a> · 
   <a href="#页面配置">页面配置</a> · 
   <a href="https://github.com/atangccc/Serenity-Grace/releases">更新日志</a>
@@ -23,13 +22,17 @@
 
 ---
 
-## 示例站点
+## 主题作者站点
+
+🔗 [serenity.aobp.cn](https://serenity.aobp.cn/)
+
+## 其他用户站点示例
 
 | 站点 | 链接 |
 |------|------|
 | 空白 Blog | [www.guaike.top](https://www.guaike.top/) |
 
-> 欢迎使用 Serenity 主题的站长提交自己的站点，PR 即可。
+> 欢迎使用 Serenity 主题的站长提交自己的站点，PR 即可上榜。
 
 ## 预览
 
