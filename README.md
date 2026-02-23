@@ -27,7 +27,7 @@
 
 | 站点 | 链接 |
 |------|------|
-| 怪客 | [www.guaike.top](https://www.guaike.top/) |
+| 空白 Blog | [www.guaike.top](https://www.guaike.top/) |
 
 > 欢迎使用 Serenity 主题的站长提交自己的站点，PR 即可。
 
