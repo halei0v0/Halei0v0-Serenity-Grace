@@ -16,6 +16,7 @@
 
 <p align="center">
   <a href="https://serenity.aobp.cn/">在线演示</a> · 
+  <a href="https://www.guaike.top/">示例站点</a> · 
   <a href="#页面模板">页面一览</a> · 
   <a href="#页面配置">页面配置</a> · 
   <a href="https://github.com/atangccc/Serenity-Grace/releases">更新日志</a>
