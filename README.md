@@ -134,7 +134,7 @@
 ## 交流群
 | 微信 |
 |:---:|
-| ![微信](screenshots/7.jpg) |
+| ![微信](screenshots/7.png) |
 
 ---
 
