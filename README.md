@@ -26,6 +26,18 @@
 
 ---
 
+## 🌐 在线预览
+
+<div align="center">
+
+[![在线预览](https://img.shields.io/badge/🌐_serenity.aobp.cn-点击访问-F596AA?style=for-the-badge&logoColor=white)](https://serenity.aobp.cn/)
+
+> 💡 建议使用无痕浏览模式访问，体验完整的欢迎页和首次访问效果
+
+</div>
+
+---
+
 
 ## 🤝 小伙伴站点
 
