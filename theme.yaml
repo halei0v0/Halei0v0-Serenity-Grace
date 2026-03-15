@@ -57,6 +57,10 @@ spec:
         description: 便签墙
         screenshot: 
         file: wishes.html
+      - name: equipments
+        description: 我的装备
+        screenshot: 
+        file: equipments.html
     post:
       - name: default
         description: 默认文章

@@ -15,8 +15,8 @@
     <div class="container">
       <section class="friends-circle-page">
         <div class="friends-circle-header" data-aos="fade-up">
-          <h1 class="friends-circle-title" th:text="${singlePage.spec.title}">朋友圈</h1>
-          <p class="friends-circle-subtitle">发现朋友们的精彩内容</p>
+          <h1 class="friends-circle-title" th:text="${theme.config.watermark?.friendsCircle?.title ?: (singlePage.spec.title ?: '朋友圈')}">朋友圈</h1>
+          <p class="friends-circle-subtitle" th:text="${theme.config.watermark?.friendsCircle?.subtitle ?: '发现朋友们的精彩内容'}">发现朋友们的精彩内容</p>
         </div>
 
         <div th:if="${friendFinder == null}" class="plugin-notice" data-aos="fade-up">

@@ -103,8 +103,17 @@
     </svg>
   </th:block>
 
+  <!-- 装备 -->
+  <th:block th:if="${#strings.contains(href, '/equipments')}">
+    <i th:if="${(bs != null and bs.iconEquipments != null and !#strings.isEmpty(bs.iconEquipments)) or !#strings.isEmpty(ac)}"
+       th:classappend="${(bs != null and bs.iconEquipments != null and !#strings.isEmpty(bs.iconEquipments)) ? bs.iconEquipments : ac}" class="nav-custom-icon"></i>
+    <svg th:if="${(bs == null or bs.iconEquipments == null or #strings.isEmpty(bs.iconEquipments)) and #strings.isEmpty(ac)}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><polyline points="16 7 16 2 8 2 8 7"/>
+    </svg>
+  </th:block>
+
   <!-- 未匹配已知路径：annotation fallback -->
-  <th:block th:if="${!#strings.contains(href, '/archives') and !#strings.contains(href, '/tags') and !#strings.contains(href, '/categories') and !#strings.contains(href, '/about') and !#strings.contains(href, '/moments') and !#strings.contains(href, '/links') and !#strings.contains(href, '/guestbook') and !#strings.contains(href, '/projects') and !#strings.contains(href, '/photos') and !#strings.contains(href, '/friends-circle') and !#strings.contains(href, '/wishes')}">
+  <th:block th:if="${!#strings.contains(href, '/archives') and !#strings.contains(href, '/tags') and !#strings.contains(href, '/categories') and !#strings.contains(href, '/about') and !#strings.contains(href, '/moments') and !#strings.contains(href, '/links') and !#strings.contains(href, '/guestbook') and !#strings.contains(href, '/projects') and !#strings.contains(href, '/photos') and !#strings.contains(href, '/friends-circle') and !#strings.contains(href, '/wishes') and !#strings.contains(href, '/equipments')}">
     <i th:if="${!#strings.isEmpty(ac)}" th:classappend="${ac}" class="nav-custom-icon"></i>
     <svg th:if="${#strings.isEmpty(ac)}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>

@@ -16,8 +16,8 @@
       <section class="moments-page" th:with="momentsResult = ${momentFinder != null ? momentFinder.list(1, 50) : null}">
         
         <div class="moments-header" data-aos="fade-up">
-          <h1 class="moments-title" th:text="${singlePage != null ? singlePage.spec.title : '碎碎念'}">碎碎念</h1>
-          <p class="moments-subtitle">记录生活中的点滴，留住那些值得回忆的瞬间</p>
+          <h1 class="moments-title" th:text="${theme.config.watermark?.moments?.title ?: (singlePage != null ? singlePage.spec.title : '碎碎念')}">碎碎念</h1>
+          <p class="moments-subtitle" th:text="${theme.config.watermark?.moments?.subtitle ?: '记录生活中的点滴，留住那些值得回忆的瞬间'}">记录生活中的点滴，留住那些值得回忆的瞬间</p>
           <div class="moments-stats" th:if="${momentsResult != null}">
             <div class="moments-stat">
               <span class="moments-stat-num" th:text="${momentsResult.total}">0</span>

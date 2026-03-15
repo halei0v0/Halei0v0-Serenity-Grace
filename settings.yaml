@@ -42,6 +42,34 @@ spec:
             - label: 跟随系统
               value: auto
           help: 用户首次访问时的默认主题
+        - $formkit: checkbox
+          name: watermarkEnabled
+          label: 启用水印
+          value: true
+          help: 是否在页面各处显示装饰性水印（不影响功能）
+        - $formkit: text
+          name: watermarkText
+          label: 水印文字
+          value: "Serenity"
+          help: 自定义水印显示的文字，默认为站点标题
+        - $formkit: select
+          name: watermarkSource
+          label: 水印来源
+          value: "custom"
+          options:
+            - label: 自定义文字
+              value: custom
+            - label: 使用站点标题
+              value: siteTitle
+          help: 选择水印文字的来源
+        - $formkit: number
+          name: watermarkOpacity
+          label: 水印透明度
+          value: 0.05
+          min: 0.01
+          max: 0.2
+          step: 0.01
+          help: 水印的透明度，范围 0.01-0.2，默认 0.05（非常淡）
         - $formkit: group
           label: 导航图标配置
           children:
@@ -111,6 +139,12 @@ spec:
               value: "fa-solid fa-note-sticky"
               placeholder: "fa-solid fa-note-sticky"
               help: 便签墙页面图标
+            - $formkit: text
+              name: iconEquipments
+              label: 装备图标
+              value: "fa-solid fa-toolbox"
+              placeholder: "fa-solid fa-toolbox"
+              help: 装备页面图标
         - $formkit: repeater
           name: categoryIcons
           label: 分类图标列表
@@ -376,6 +410,10 @@ spec:
           name: showWishes
           label: 显示便签墙链接
           value: true
+        - $formkit: checkbox
+          name: showEquipments
+          label: 显示装备链接
+          value: true
 
     - group: home
       label: 首页内容
@@ -497,6 +535,11 @@ spec:
           label: 显示文章过期提示
           value: true
           help: 文章发布超过一定天数后，在文章顶部显示"本文发布于 X 天前"的时效性提示
+        - $formkit: checkbox
+          name: showHeadingIcons
+          label: 显示标题装饰图标
+          value: true
+          help: 在文章各级标题前显示云朵、太阳、叶子等装饰图标，文章页面也提供切换按钮
         - $formkit: checkbox
           name: enableBackground
           label: 启用背景壁纸
@@ -889,36 +932,158 @@ spec:
           help: Google Search Console 验证代码
 
     - group: watermark
-      label: 水印设置
+      label: 页面标题设置
       formSchema:
-        - $formkit: checkbox
-          name: enabled
-          label: 启用水印
-          value: true
-          help: 是否在页面各处显示装饰性水印（不影响功能）
-        - $formkit: text
-          name: text
-          label: 水印文字
-          value: "Serenity"
-          help: 自定义水印显示的文字，默认为站点标题
-        - $formkit: select
-          name: source
-          label: 水印来源
-          value: "custom"
-          options:
-            - label: 自定义文字
-              value: custom
-            - label: 使用站点标题
-              value: siteTitle
-          help: 选择水印文字的来源
-        - $formkit: number
-          name: opacity
-          label: 水印透明度
-          value: 0.05
-          min: 0.01
-          max: 0.2
-          step: 0.01
-          help: 水印的透明度，范围 0.01-0.2，默认 0.05（非常淡）
+        - $formkit: group
+          name: equipments
+          label: 装备页面
+          value:
+            title: "装备"
+            subtitle: "工欲善其事，必先利其器"
+          children:
+            - $formkit: text
+              name: title
+              label: 页面标题
+              value: "装备"
+            - $formkit: text
+              name: subtitle
+              label: 页面副标题
+              value: "工欲善其事，必先利其器"
+        - $formkit: group
+          name: projects
+          label: 项目展示
+          value:
+            title: "我的项目"
+            subtitle: "开源项目与作品集"
+          children:
+            - $formkit: text
+              name: title
+              label: 页面标题
+              value: "我的项目"
+            - $formkit: text
+              name: subtitle
+              label: 页面副标题
+              value: "开源项目与作品集"
+        - $formkit: group
+          name: links
+          label: 友链页面
+          value:
+            title: "朋友们"
+            subtitle: "海内存知己，天涯若比邻"
+          children:
+            - $formkit: text
+              name: title
+              label: 页面标题
+              value: "朋友们"
+            - $formkit: text
+              name: subtitle
+              label: 页面副标题
+              value: "海内存知己，天涯若比邻"
+        - $formkit: group
+          name: friendsCircle
+          label: 朋友圈
+          value:
+            title: "朋友圈"
+            subtitle: "发现朋友们的精彩内容"
+          children:
+            - $formkit: text
+              name: title
+              label: 页面标题
+              value: "朋友圈"
+            - $formkit: text
+              name: subtitle
+              label: 页面副标题
+              value: "发现朋友们的精彩内容"
+        - $formkit: group
+          name: moments
+          label: 碎碎念
+          value:
+            title: "碎碎念"
+            subtitle: "记录生活中的点滴，留住那些值得回忆的瞬间"
+          children:
+            - $formkit: text
+              name: title
+              label: 页面标题
+              value: "碎碎念"
+            - $formkit: text
+              name: subtitle
+              label: 页面副标题
+              value: "记录生活中的点滴，留住那些值得回忆的瞬间"
+        - $formkit: group
+          name: photos
+          label: 图库集
+          value:
+            title: "图库集"
+            subtitle: "用镜头记录生活的美好瞬间"
+          children:
+            - $formkit: text
+              name: title
+              label: 页面标题
+              value: "图库集"
+            - $formkit: text
+              name: subtitle
+              label: 页面副标题
+              value: "用镜头记录生活的美好瞬间"
+        - $formkit: group
+          name: guestbook
+          label: 留言板
+          value:
+            title: "留言板"
+            subtitle: "来几句走心的评论吧，留下你的足迹"
+          children:
+            - $formkit: text
+              name: title
+              label: 页面标题
+              value: "留言板"
+            - $formkit: text
+              name: subtitle
+              label: 页面副标题
+              value: "来几句走心的评论吧，留下你的足迹"
+        - $formkit: group
+          name: tags
+          label: 标签页面
+          value:
+            title: "标签"
+            subtitle: "探索文章的标签世界"
+          children:
+            - $formkit: text
+              name: title
+              label: 页面标题
+              value: "标签"
+            - $formkit: text
+              name: subtitle
+              label: 页面副标题
+              value: "探索文章的标签世界"
+        - $formkit: group
+          name: archives
+          label: 归档页面
+          value:
+            title: "归档"
+            subtitle: "时光荏苒，文字留痕"
+          children:
+            - $formkit: text
+              name: title
+              label: 页面标题
+              value: "归档"
+            - $formkit: text
+              name: subtitle
+              label: 页面副标题
+              value: "时光荏苒，文字留痕"
+        - $formkit: group
+          name: categories
+          label: 分类页面
+          value:
+            title: "分类"
+            subtitle: "按分类浏览全部内容"
+          children:
+            - $formkit: text
+              name: title
+              label: 页面标题
+              value: "分类"
+            - $formkit: text
+              name: subtitle
+              label: 页面副标题
+              value: "按分类浏览全部内容"
 
     - group: projects
       label: 项目展示

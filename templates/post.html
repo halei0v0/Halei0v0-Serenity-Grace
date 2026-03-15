@@ -76,6 +76,7 @@
   }
   </script>
   <script th:src="@{/assets/js/lightbox.js}" defer></script>
+  <script th:inline="javascript">window.__showHeadingIcons = /*[[${theme.config.post != null && theme.config.post.showHeadingIcons != null ? theme.config.post.showHeadingIcons : true}]]*/ true;</script>
   <script th:src="@{/assets/js/post.js}" defer></script>
 </th:block>
 <th:block th:fragment="content">

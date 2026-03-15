@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{modules/layout :: html(title = '标签', content = ~{::content}, head = ~{::head})}">
+      th:replace="~{modules/layout :: html(title = ${theme.config.watermark?.tags?.title ?: '标签'}, content = ~{::content}, head = ~{::head})}">
 <th:block th:fragment="head">
   <link rel="stylesheet" th:href="@{/assets/css/tags.css}" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" th:content="${'标签 - ' + (theme.config.basic.title ?: site.title)}" />
+  <meta property="og:title" th:content="${(theme.config.watermark?.tags?.title ?: '标签') + ' - ' + (theme.config.basic.title ?: site.title)}" />
   <meta property="og:description" content="全部文章标签" />
-  <meta name="twitter:title" th:content="${'标签 - ' + (theme.config.basic.title ?: site.title)}" />
+  <meta name="twitter:title" th:content="${(theme.config.watermark?.tags?.title ?: '标签') + ' - ' + (theme.config.basic.title ?: site.title)}" />
   <meta name="twitter:description" content="全部文章标签" />
   <script th:src="@{/assets/js/tags.js}" defer></script>
 </th:block>
 <th:block th:fragment="content">
   <div class="container">
     <header class="page-header" data-aos="fade-up">
-      <h1 class="page-title">标签</h1>
+      <h1 class="page-title" th:text="${theme.config.watermark?.tags?.title ?: '标签'}">标签</h1>
+      <p class="page-desc" th:text="${theme.config.watermark?.tags?.subtitle ?: '探索文章的标签世界'}">探索文章的标签世界</p>
       <p class="page-desc" th:if="${not #lists.isEmpty(tags)}">
         共 <span th:text="${#lists.size(tags)}">0</span> 个标签
       </p>
@@ -27,31 +28,19 @@
 
           <div class="stats-ring">
             <div class="rings-container">
-              <svg class="rings-svg" viewBox="0 0 240 240">
+              <svg class="rings-svg" viewBox="0 0 240 240" id="rings-svg">
                 <circle cx="120" cy="120" r="90" class="ring-bg"/>
                 <circle cx="120" cy="120" r="72" class="ring-bg"/>
                 <circle cx="120" cy="120" r="54" class="ring-bg"/>
                 <circle cx="120" cy="120" r="36" class="ring-bg"/>
-                <circle th:if="${#lists.size(tags) > 0}" cx="120" cy="120" r="90" class="ring"
-                        th:with="c=${tags[0].spec.color != null ? tags[0].spec.color : '#5B8FF9'}"
-                        th:style="|stroke: ${c};|"
-                        th:attr="data-name=${tags[0].spec.displayName},data-count=${tags[0].status.postCount},data-color=${c}"/>
-                <circle th:if="${#lists.size(tags) > 1}" cx="120" cy="120" r="72" class="ring"
-                        th:with="c=${tags[1].spec.color != null ? tags[1].spec.color : '#5AD8A6'}"
-                        th:style="|stroke: ${c};|"
-                        th:attr="data-name=${tags[1].spec.displayName},data-count=${tags[1].status.postCount},data-color=${c}"/>
-                <circle th:if="${#lists.size(tags) > 2}" cx="120" cy="120" r="54" class="ring"
-                        th:with="c=${tags[2].spec.color != null ? tags[2].spec.color : '#F6BD16'}"
-                        th:style="|stroke: ${c};|"
-                        th:attr="data-name=${tags[2].spec.displayName},data-count=${tags[2].status.postCount},data-color=${c}"/>
-                <circle th:if="${#lists.size(tags) > 3}" cx="120" cy="120" r="36" class="ring"
-                        th:with="c=${tags[3].spec.color != null ? tags[3].spec.color : '#E86452'}"
-                        th:style="|stroke: ${c};|"
-                        th:attr="data-name=${tags[3].spec.displayName},data-count=${tags[3].status.postCount},data-color=${c}"/>
               </svg>
+              <div id="tags-data" style="display:none;">
+                <span th:each="tag : ${tags}" class="tag-data-item"
+                      th:attr="data-name=${tag.spec.displayName},data-count=${tag.status.postCount},data-color=${tag.spec.color}"></span>
+              </div>
               <div class="rings-center">
                 <span class="rings-total" id="rings-total">0</span>
-                <span class="rings-label">篇文章</span>
+                <span class="rings-label">个标签</span>
               </div>
               <div class="ring-tooltip" id="ring-tooltip">
                 <span class="tooltip-dot"></span>
@@ -65,11 +54,13 @@
             <div class="chart-area" id="chart-area">
               <div th:each="tag, iterStat : ${tags}"
                    class="chart-col"
-                   th:with="fallback=${iterStat.index % 5 == 0 ? '#5B8FF9' : (iterStat.index % 5 == 1 ? '#5AD8A6' : (iterStat.index % 5 == 2 ? '#F6BD16' : (iterStat.index % 5 == 3 ? '#E86452' : '#945FB9')))}"
                    th:attr="data-count=${tag.status.postCount},data-name=${tag.spec.displayName}">
                 <div class="col-bar">
                   <div class="col-fill"
-                       th:style="|--bar-color: ${tag.spec.color != null ? tag.spec.color : fallback};|"></div>
+                       th:if="${tag.spec.color != null}"
+                       th:style="|--bar-color: ${tag.spec.color};|"></div>
+                  <div class="col-fill"
+                       th:if="${tag.spec.color == null}"></div>
                 </div>
               </div>
               <div class="chart-tooltip" id="chart-tooltip">
@@ -88,9 +79,8 @@
              th:href="@{${tag.status.permalink}}"
              class="tag-chip"
              th:classappend="${iterStat.index < 3 ? 'chip-lg' : (iterStat.index < 7 ? 'chip-md' : 'chip-sm')}"
-             th:with="fallback=${iterStat.index % 5 == 0 ? '#5B8FF9' : (iterStat.index % 5 == 1 ? '#5AD8A6' : (iterStat.index % 5 == 2 ? '#F6BD16' : (iterStat.index % 5 == 3 ? '#E86452' : '#945FB9')))}"
              th:attr="data-name=${tag.spec.displayName}"
-             th:style="|--tag-color: ${tag.spec.color != null ? tag.spec.color : fallback};|">
+             th:style="${tag.spec.color != null ? '--tag-color: ' + tag.spec.color + ';' : ''}">
             <span class="chip-dot"></span>
             <span th:text="${tag.spec.displayName}">标签</span>
             <span class="chip-count" th:text="${tag.status.postCount}">0</span>

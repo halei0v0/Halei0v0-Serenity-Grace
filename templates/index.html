@@ -231,7 +231,8 @@
                     (#strings.contains(mHref, '/projects') and theme.config.compass.showProjects) or
                     (#strings.contains(mHref, '/photos') and theme.config.compass.showPhotos) or
                     (#strings.contains(mHref, '/friends-circle') and theme.config.compass.showFriendsCircle) or
-                    (#strings.contains(mHref, '/wishes') and (theme.config.compass.showWishes ?: true))
+                    (#strings.contains(mHref, '/wishes') and (theme.config.compass.showWishes ?: true)) or
+                    (#strings.contains(mHref, '/equipments') and (theme.config.compass.showEquipments ?: true))
                   }"
                      th:href="@{${mHref}}"
                      th:target="${menuItem.spec.target?.value}"
@@ -256,7 +257,8 @@
                     (#strings.contains(cHref, '/projects') and theme.config.compass.showProjects) or
                     (#strings.contains(cHref, '/photos') and theme.config.compass.showPhotos) or
                     (#strings.contains(cHref, '/friends-circle') and theme.config.compass.showFriendsCircle) or
-                    (#strings.contains(cHref, '/wishes') and (theme.config.compass.showWishes ?: true))
+                    (#strings.contains(cHref, '/wishes') and (theme.config.compass.showWishes ?: true)) or
+                    (#strings.contains(cHref, '/equipments') and (theme.config.compass.showEquipments ?: true))
                   }"
                      th:href="@{${cHref}}"
                      th:target="${childMenu.spec.target?.value}"

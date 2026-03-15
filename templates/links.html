@@ -15,8 +15,8 @@
   <main class="main">
     <div class="container">
       <section class="links-hero" data-aos="fade-up">
-        <h1 class="links-hero-title" th:text="${singlePage != null ? singlePage.spec.title : '朋友们'}">朋友们</h1>
-        <p class="links-hero-desc">海内存知己，天涯若比邻</p>
+        <h1 class="links-hero-title" th:text="${theme.config.watermark?.links?.title ?: (singlePage != null ? singlePage.spec.title : '朋友们')}">朋友们</h1>
+        <p class="links-hero-desc" th:text="${theme.config.watermark?.links?.subtitle ?: '海内存知己，天涯若比邻'}">海内存知己，天涯若比邻</p>
         <div class="links-hero-stats" th:with="totalLinks = ${#lists.isEmpty(groups) ? 0 : #aggregates.sum(groups.![links.size()])}">
           <span class="links-count">已收录 <strong th:text="${totalLinks}">0</strong> 位朋友</span>
           <button class="links-random-btn" onclick="visitRandomLink()" aria-label="随机访问一位友链">

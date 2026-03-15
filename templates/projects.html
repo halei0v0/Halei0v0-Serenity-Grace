@@ -15,8 +15,8 @@
     <div class="container">
       <section class="projects-page">
         <div class="projects-header" data-aos="fade-up">
-          <h1 class="projects-title" th:text="${singlePage.spec.title}">我的项目</h1>
-          <p class="projects-subtitle">开源项目与作品集</p>
+          <h1 class="projects-title" th:text="${theme.config.watermark?.projects?.title ?: (singlePage.spec.title ?: '我的项目')}">我的项目</h1>
+          <p class="projects-subtitle" th:text="${theme.config.watermark?.projects?.subtitle ?: '开源项目与作品集'}">开源项目与作品集</p>
           <div class="projects-stats">
             <div class="projects-stats-row">
               <div class="projects-stat">

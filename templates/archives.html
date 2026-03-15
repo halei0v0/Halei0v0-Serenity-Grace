@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{modules/layout :: html(title = '归档', content = ~{::content}, head = ~{::head})}">
+      th:replace="~{modules/layout :: html(title = ${theme.config.watermark?.archives?.title ?: '归档'}, content = ~{::content}, head = ~{::head})}">
 <th:block th:fragment="head">
   <link rel="stylesheet" th:href="@{/assets/css/archives.css}" />
   <script th:src="@{/assets/js/archives.js}" defer></script>
   <meta property="og:type" content="website" />
-  <meta property="og:title" th:content="${'归档 - ' + (theme.config.basic.title ?: site.title)}" />
+  <meta property="og:title" th:content="${(theme.config.watermark?.archives?.title ?: '归档') + ' - ' + (theme.config.basic.title ?: site.title)}" />
   <meta property="og:description" th:content="${'全部文章归档列表'}" />
-  <meta name="twitter:title" th:content="${'归档 - ' + (theme.config.basic.title ?: site.title)}" />
+  <meta name="twitter:title" th:content="${(theme.config.watermark?.archives?.title ?: '归档') + ' - ' + (theme.config.basic.title ?: site.title)}" />
   <meta name="twitter:description" th:content="${'全部文章归档列表'}" />
 </th:block>
 <th:block th:fragment="content">
   <div class="container">
     <header class="page-header" data-aos="fade-up">
-      <h1 class="page-title">归档</h1>
+      <h1 class="page-title" th:text="${theme.config.watermark?.archives?.title ?: '归档'}">归档</h1>
+      <p class="page-desc" th:text="${theme.config.watermark?.archives?.subtitle ?: '时光荏苒，文字留痕'}">时光荏苒，文字留痕</p>
       <p class="page-desc" th:if="${archives.total}">共 <span th:text="${archives.total}">42</span> 篇文章</p>
       <p class="page-desc" th:unless="${archives.total}">共 42 篇文章</p>
     </header>
