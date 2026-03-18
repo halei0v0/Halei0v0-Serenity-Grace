@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{modules/layout :: html(title = ${theme.config.watermark?.categories?.title ?: '分类'}, content = ~{::content}, head = ~{::head})}">
+      th:replace="~{modules/layout :: html(title = ${(theme.config.watermark?.categories?.enabled == true ? theme.config.watermark.categories.title : null) ?: '分类'}, content = ~{::content}, head = ~{::head})}">
 <th:block th:fragment="head">
   <link rel="stylesheet" th:href="@{/assets/css/tags.css}" />
 </th:block>
 <th:block th:fragment="content">
   <div class="container">
     <header class="page-header" data-aos="fade-up">
-      <h1 class="page-title" th:text="${theme.config.watermark?.categories?.title ?: '分类'}">分类</h1>
-      <p class="page-desc" th:text="${theme.config.watermark?.categories?.subtitle ?: '按分类浏览全部内容'}">按分类浏览全部内容</p>
+      <h1 class="page-title" th:text="${(theme.config.watermark?.categories?.enabled == true ? theme.config.watermark.categories.title : null) ?: '分类'}">分类</h1>
+      <p class="page-desc" th:text="${(theme.config.watermark?.categories?.enabled == true ? theme.config.watermark.categories.subtitle : null) ?: '按分类浏览全部内容'}">按分类浏览全部内容</p>
       <p class="page-desc" th:if="${not #lists.isEmpty(categories)}">
         共 <span th:text="${#lists.size(categories)}">6</span> 个分类
       </p>

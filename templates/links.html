@@ -5,7 +5,7 @@
   <link rel="stylesheet" th:href="@{/assets/css/links.css}" />
   <script>
     window.LINK_CONFIG = {
-      offlineLabel: '[[${theme.config.links != null && theme.config.links.offlineLabel != null && !#strings.isEmpty(theme.config.links.offlineLabel) ? theme.config.links.offlineLabel : "失联咯~"}]]'
+      offlineLabel: '[[${theme.config.links != null && theme.config.links.linksConfig != null && theme.config.links.linksConfig.offlineLabel != null && !#strings.isEmpty(theme.config.links.linksConfig.offlineLabel) ? theme.config.links.linksConfig.offlineLabel : "失联咯~"}]]'
     };
   </script>
   <script th:src="@{/assets/js/links.js}" defer></script>
@@ -15,8 +15,8 @@
   <main class="main">
     <div class="container">
       <section class="links-hero" data-aos="fade-up">
-        <h1 class="links-hero-title" th:text="${theme.config.watermark?.links?.title ?: (singlePage != null ? singlePage.spec.title : '朋友们')}">朋友们</h1>
-        <p class="links-hero-desc" th:text="${theme.config.watermark?.links?.subtitle ?: '海内存知己，天涯若比邻'}">海内存知己，天涯若比邻</p>
+        <h1 class="links-hero-title" th:text="${(theme.config.watermark?.links?.enabled == true ? theme.config.watermark.links.title : null) ?: (singlePage != null ? singlePage.spec.title : '朋友们')}">朋友们</h1>
+        <p class="links-hero-desc" th:text="${(theme.config.watermark?.links?.enabled == true ? theme.config.watermark.links.subtitle : null) ?: '海内存知己，天涯若比邻'}">海内存知己，天涯若比邻</p>
         <div class="links-hero-stats" th:with="totalLinks = ${#lists.isEmpty(groups) ? 0 : #aggregates.sum(groups.![links.size()])}">
           <span class="links-count">已收录 <strong th:text="${totalLinks}">0</strong> 位朋友</span>
           <button class="links-random-btn" onclick="visitRandomLink()" aria-label="随机访问一位友链">
@@ -62,15 +62,15 @@
         </div>
       </section>
 
-      <div class="link-apply" data-aos="fade-up">
+      <div class="link-apply" data-aos="fade-up" th:if="${theme.config.links == null || theme.config.links.linksConfig == null || theme.config.links.linksConfig.enabled == null || theme.config.links.linksConfig.enabled}">
         <h2 class="link-apply-title">申请友链</h2>
         <p class="link-apply-desc">欢迎交换友链，请提交你的站点信息</p>
         <div class="link-apply-info">
-          <span class="link-apply-item" onclick="copyApplyInfo(this)" title="点击复制"><span class="label">名称：</span><span class="link-apply-value" th:text="${#strings.isEmpty(theme.config.links.ownerName) ? theme.config.basic.title : theme.config.links.ownerName}">站点名称</span><span class="copy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span></span>
-          <span class="link-apply-item" onclick="copyApplyInfo(this)" title="点击复制"><span class="label">链接：</span><span class="link-apply-value" th:text="${#strings.isEmpty(theme.config.links.ownerUrl) ? site.url : theme.config.links.ownerUrl}">站点链接</span><span class="copy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span></span>
-          <span class="link-apply-item" th:if="${!#strings.isEmpty(theme.config.links.ownerAvatar) or !#strings.isEmpty(theme.config.basic.logo)}" onclick="copyApplyInfo(this)" title="点击复制"><span class="label">头像：</span><span class="link-apply-value" th:text="${#strings.isEmpty(theme.config.links.ownerAvatar) ? theme.config.basic.logo : theme.config.links.ownerAvatar}">头像链接</span><span class="copy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span></span>
-          <span class="link-apply-item" onclick="copyApplyInfo(this)" title="点击复制"><span class="label">描述：</span><span class="link-apply-value" th:text="${#strings.isEmpty(theme.config.links.ownerDescription) ? theme.config.basic.description : theme.config.links.ownerDescription}">站点描述</span><span class="copy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span></span>
-          <a th:if="${pluginFinder.available('link-submit') and (theme.config.links.showApplyButton == null or theme.config.links.showApplyButton)}" href="javascript:void(0)" onclick="openLinkSubmitModal()" class="link-submit-text link-apply-item" title="申请友链">申请友链 ›</a>
+          <span class="link-apply-item" onclick="copyApplyInfo(this)" title="点击复制"><span class="label">名称：</span><span class="link-apply-value" th:text="${#strings.isEmpty(theme.config.links.linksConfig.ownerName) ? theme.config.basic.siteInfo.title : theme.config.links.linksConfig.ownerName}">站点名称</span><span class="copy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span></span>
+          <span class="link-apply-item" onclick="copyApplyInfo(this)" title="点击复制"><span class="label">链接：</span><span class="link-apply-value" th:text="${#strings.isEmpty(theme.config.links.linksConfig.ownerUrl) ? site.url : theme.config.links.linksConfig.ownerUrl}">站点链接</span><span class="copy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span></span>
+          <span class="link-apply-item" th:if="${!#strings.isEmpty(theme.config.links.linksConfig.ownerAvatar) or !#strings.isEmpty(site.logo)}" onclick="copyApplyInfo(this)" title="点击复制"><span class="label">头像：</span><span class="link-apply-value" th:text="${#strings.isEmpty(theme.config.links.linksConfig.ownerAvatar) ? site.logo : theme.config.links.linksConfig.ownerAvatar}">头像链接</span><span class="copy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span></span>
+          <span class="link-apply-item" onclick="copyApplyInfo(this)" title="点击复制"><span class="label">描述：</span><span class="link-apply-value" th:text="${#strings.isEmpty(theme.config.links.linksConfig.ownerDescription) ? theme.config.basic.siteInfo.description : theme.config.links.linksConfig.ownerDescription}">站点描述</span><span class="copy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span></span>
+          <a th:if="${pluginFinder.available('link-submit') and (theme.config.links.linksConfig.showApplyButton == null or theme.config.links.linksConfig.showApplyButton)}" href="javascript:void(0)" onclick="openLinkSubmitModal()" class="link-submit-text link-apply-item" title="申请友链">申请友链 ›</a>
         </div>
       </div>
     </div>

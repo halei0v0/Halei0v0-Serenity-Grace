@@ -5,9 +5,9 @@
 <th:block th:fragment="head">
   <link rel="stylesheet" th:href="@{/assets/css/guestbook.css}" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" th:content="${(singlePage.spec.title ?: '留言板') + ' - ' + (theme.config.basic.title ?: site.title)}" />
+  <meta property="og:title" th:content="${(singlePage.spec.title ?: '留言板') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
   <meta property="og:description" content="来几句走心的评论吧，留下你的足迹" />
-  <meta name="twitter:title" th:content="${(singlePage.spec.title ?: '留言板') + ' - ' + (theme.config.basic.title ?: site.title)}" />
+  <meta name="twitter:title" th:content="${(singlePage.spec.title ?: '留言板') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
   <meta name="twitter:description" content="来几句走心的评论吧，留下你的足迹" />
   <script th:inline="javascript">
     window.__GUESTBOOK_PAGE_NAME__ = /*[[${singlePage.metadata.name}]]*/ '';
@@ -19,8 +19,8 @@
     <div class="container">
       <section class="guestbook-page">
         <div class="guestbook-header" data-aos="fade-up">
-          <h1 class="guestbook-title" th:text="${theme.config.watermark?.guestbook?.title ?: (singlePage.spec.title ?: '留言板')}">留言板</h1>
-          <p class="guestbook-subtitle" th:text="${theme.config.watermark?.guestbook?.subtitle ?: '来几句走心的评论吧，留下你的足迹'}">来几句走心的评论吧，留下你的足迹</p>
+          <h1 class="guestbook-title" th:text="${(theme.config.watermark?.guestbook?.enabled == true ? theme.config.watermark.guestbook.title : null) ?: (singlePage.spec.title ?: '留言板')}">留言板</h1>
+          <p class="guestbook-subtitle" th:text="${(theme.config.watermark?.guestbook?.enabled == true ? theme.config.watermark.guestbook.subtitle : null) ?: '来几句走心的评论吧，留下你的足迹'}">来几句走心的评论吧，留下你的足迹</p>
           <div class="guestbook-stats">
             <div class="guestbook-stat">
               <span class="guestbook-stat-num" id="guestbookCount">0</span>

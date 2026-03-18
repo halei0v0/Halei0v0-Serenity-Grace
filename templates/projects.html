@@ -6,7 +6,7 @@
   <script th:src="@{/assets/js/projects.js}" defer></script>
   <meta property="og:type" content="website" />
   <meta property="og:title" th:content="${singlePage.spec.title}" />
-  <meta property="og:description" th:content="${singlePage.status.excerpt ?: (theme.config.basic.description ?: site.subtitle)}" />
+  <meta property="og:description" th:content="${singlePage.status.excerpt ?: (theme.config.basic.siteInfo.description ?: site.subtitle)}" />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" th:content="${singlePage.spec.title}" />
 </th:block>
@@ -15,8 +15,8 @@
     <div class="container">
       <section class="projects-page">
         <div class="projects-header" data-aos="fade-up">
-          <h1 class="projects-title" th:text="${theme.config.watermark?.projects?.title ?: (singlePage.spec.title ?: '我的项目')}">我的项目</h1>
-          <p class="projects-subtitle" th:text="${theme.config.watermark?.projects?.subtitle ?: '开源项目与作品集'}">开源项目与作品集</p>
+          <h1 class="projects-title" th:text="${(theme.config.watermark?.projects?.enabled == true ? theme.config.watermark.projects.title : null) ?: (singlePage.spec.title ?: '我的项目')}">我的项目</h1>
+          <p class="projects-subtitle" th:text="${(theme.config.watermark?.projects?.enabled == true ? theme.config.watermark.projects.subtitle : null) ?: '开源项目与作品集'}">开源项目与作品集</p>
           <div class="projects-stats">
             <div class="projects-stats-row">
               <div class="projects-stat">

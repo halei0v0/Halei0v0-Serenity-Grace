@@ -4,19 +4,19 @@
 <th:block th:fragment="head">
   <link rel="stylesheet" th:href="@{/assets/css/post-page.css}" />
   <!-- 文章页滚动条：根据设置动态添加 class -->
-  <script th:if="${theme.config.post != null and theme.config.post.showScrollbar == true}">
+  <script th:if="${theme.config.post != null and theme.config.post.scrollbarConfig != null and theme.config.post.scrollbarConfig.showScrollbar == true}">
     document.documentElement.classList.add('show-scrollbar');
   </script>
   <link rel="canonical" th:href="${site.url + post.status.permalink}" />
   <!-- 文章页 Open Graph 覆盖 -->
   <meta property="og:type" content="article" />
   <meta property="og:title" th:content="${post.spec.title}" />
-  <meta property="og:description" th:content="${post.status.excerpt ?: (theme.config.basic.description ?: site.subtitle)}" />
+  <meta property="og:description" th:content="${post.status.excerpt ?: (theme.config.basic.siteInfo.description ?: site.subtitle)}" />
   <meta property="og:url" th:content="${site.url + post.status.permalink}" />
   <meta property="og:image" th:if="${post.spec.cover != null && !#strings.isEmpty(post.spec.cover)}" th:content="${post.spec.cover}" />
   <meta property="article:published_time" th:if="${post.spec.publishTime}" th:content="${post.spec.publishTime}" />
   <meta property="article:modified_time" th:if="${post.status.lastModifyTime}" th:content="${post.status.lastModifyTime}" />
-  <meta property="article:author" th:content="${post.owner != null ? post.owner.displayName : (theme.config.basic.author ?: 'Author')}" />
+  <meta property="article:author" th:content="${post.owner != null ? post.owner.displayName : (theme.config.basic.siteInfo.author ?: 'Author')}" />
   <th:block th:if="${post.tags != null}" th:each="tag : ${post.tags}">
     <meta property="article:tag" th:content="${tag.spec.displayName}" />
   </th:block>
@@ -26,9 +26,9 @@
   <!-- Twitter Card 大图 -->
   <meta name="twitter:card" th:content="${post.spec.cover != null && !#strings.isEmpty(post.spec.cover) ? 'summary_large_image' : 'summary'}" />
   <meta name="twitter:title" th:content="${post.spec.title}" />
-  <meta name="twitter:description" th:content="${post.status.excerpt ?: (theme.config.basic.description ?: site.subtitle)}" />
+  <meta name="twitter:description" th:content="${post.status.excerpt ?: (theme.config.basic.siteInfo.description ?: site.subtitle)}" />
   <meta name="twitter:image" th:if="${post.spec.cover != null && !#strings.isEmpty(post.spec.cover)}" th:content="${post.spec.cover}" />
-  <script th:if="${theme.config.seo != null && (theme.config.seo.enableJsonLd == null || theme.config.seo.enableJsonLd)}" type="application/ld+json" th:inline="javascript">
+  <script th:if="${theme.config.seo != null && theme.config.seo.seoConfig != null && (theme.config.seo.seoConfig.enableJsonLd == null || theme.config.seo.seoConfig.enableJsonLd)}" type="application/ld+json" th:inline="javascript">
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -44,19 +44,19 @@
     "dateModified": /*[[${post.status.lastModifyTime}]]*/ "",
     "author": {
       "@type": "Person",
-      "name": /*[[${post.owner.displayName ?: theme.config.basic.author}]]*/ ""
+      "name": /*[[${post.owner.displayName ?: theme.config.basic.siteInfo.author}]]*/ ""
     },
     "publisher": {
       "@type": "Organization",
       "name": /*[[${site.title}]]*/ "",
       "logo": {
         "@type": "ImageObject",
-        "url": /*[[${theme.config.basic.logo != null && !#strings.isEmpty(theme.config.basic.logo) ? theme.config.basic.logo : (theme.config.hero.avatar != null && !#strings.isEmpty(theme.config.hero.avatar) ? theme.config.hero.avatar : '/themes/theme-Serenity/assets/public/ics6.webp')}]]*/ ""
+        "url": /*[[${site.logo != null && !#strings.isEmpty(site.logo) ? site.logo : '/themes/theme-Serenity/assets/public/ics6.webp'}]]*/ ""
       }
     }
   }
   </script>
-  <script th:if="${theme.config.seo != null && (theme.config.seo.enableJsonLd == null || theme.config.seo.enableJsonLd)}" type="application/ld+json" th:inline="javascript">
+  <script th:if="${theme.config.seo != null && theme.config.seo.seoConfig != null && (theme.config.seo.seoConfig.enableJsonLd == null || theme.config.seo.seoConfig.enableJsonLd)}" type="application/ld+json" th:inline="javascript">
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -64,7 +64,7 @@
       {
         "@type": "ListItem",
         "position": 1,
-        "name": /*[[${theme.config.basic.title ?: site.title}]]*/ "首页",
+        "name": /*[[${theme.config.basic.siteInfo.title ?: site.title}]]*/ "首页",
         "item": /*[[${site.url}]]*/ ""
       },
       {
@@ -76,7 +76,7 @@
   }
   </script>
   <script th:src="@{/assets/js/lightbox.js}" defer></script>
-  <script th:inline="javascript">window.__showHeadingIcons = /*[[${theme.config.post != null && theme.config.post.showHeadingIcons != null ? theme.config.post.showHeadingIcons : true}]]*/ true;</script>
+  <script th:inline="javascript">window.__showHeadingIcons = /*[[${theme.config.post != null && theme.config.post.headingIconsConfig != null && theme.config.post.headingIconsConfig.showHeadingIcons != null ? theme.config.post.headingIconsConfig.showHeadingIcons : true}]]*/ true;</script>
   <script th:src="@{/assets/js/post.js}" defer></script>
 </th:block>
 <th:block th:fragment="content">
@@ -84,12 +84,12 @@
   <div class="reading-progress-bar" id="reading-progress-bar"></div>
 
   <!-- 背景壁纸 -->
-  <th:block th:if="${theme.config.post != null and theme.config.post.enableBackground}">
+  <th:block th:if="${theme.config.post != null and theme.config.post.backgroundConfig != null and theme.config.post.backgroundConfig.enableBackground}">
     <div class="post-bg-wallpaper" 
-         th:style="'--blur: ' + ${theme.config.post.backgroundBlur != null ? theme.config.post.backgroundBlur : 3} + 'px'">
+         th:style="'--blur: ' + ${theme.config.post.backgroundConfig.backgroundBlur != null ? theme.config.post.backgroundConfig.backgroundBlur : 3} + 'px'">
       <img id="bg-wallpaper-img" alt="背景壁纸" 
-           th:data-api="${theme.config.post.backgroundApi ?: 'https://api.elaina.cat/random'}"
-           th:data-api-mobile="${theme.config.post.backgroundApiMobile}" />
+           th:data-api="${theme.config.post.backgroundConfig.backgroundApi ?: 'https://api.elaina.cat/random'}"
+           th:data-api-mobile="${theme.config.post.backgroundConfig.backgroundApiMobile}" />
     </div>
     <script th:inline="javascript">
       (function() {
@@ -147,8 +147,8 @@
         <h1 class="post-hero-title" th:text="${post.spec.title}">文章标题</h1>
         <div class="post-hero-meta">
           <span class="post-hero-author" th:if="${post.owner != null}">
-            <img th:src="${post.owner.avatar != null && !#strings.isEmpty(post.owner.avatar) ? post.owner.avatar : (theme.config.hero.avatar ?: '/themes/theme-Serenity/assets/public/ics6.webp')}" alt="" class="post-hero-avatar" />
-            <span th:text="${post.owner.displayName ?: theme.config.basic.author ?: 'Author'}">作者</span>
+            <img th:src="${post.owner.avatar != null && !#strings.isEmpty(post.owner.avatar) ? post.owner.avatar : (site.logo ?: '/themes/theme-Serenity/assets/public/ics6.webp')}" alt="" class="post-hero-avatar" />
+            <span th:text="${post.owner.displayName ?: theme.config.basic.siteInfo.author ?: 'Author'}">作者</span>
           </span>
           <span class="post-hero-date" th:if="${post.spec.publishTime}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -180,13 +180,13 @@
       </div>
     </div>
 
-    <div class="post-layout" th:classappend="${theme.config.post != null && theme.config.post.enableBackground} ? 'has-bg-wallpaper' : ''">
+    <div class="post-layout" th:classappend="${theme.config.post != null && theme.config.post.backgroundConfig != null && theme.config.post.backgroundConfig.enableBackground} ? 'has-bg-wallpaper' : ''">
       <div class="post-main">
-        <article class="post" th:classappend="${theme.config.post != null && theme.config.post.enableBackground} ? 'has-wallpaper-bg' : ''">
+        <article class="post" th:classappend="${theme.config.post != null && theme.config.post.backgroundConfig != null && theme.config.post.backgroundConfig.enableBackground} ? 'has-wallpaper-bg' : ''">
           <!-- 模糊背景容器 - 放在 article 内部 -->
-          <div class="wallpaper-bg-container" th:if="${theme.config.post != null && theme.config.post.enableBackground}"></div>
+          <div class="wallpaper-bg-container" th:if="${theme.config.post != null && theme.config.post.backgroundConfig != null && theme.config.post.backgroundConfig.enableBackground}"></div>
           <!-- 文章过期提示 -->
-          <div class="post-outdated-notice" id="post-outdated-notice" th:if="${theme.config.post == null || theme.config.post.showOutdatedNotice == null || theme.config.post.showOutdatedNotice}" th:data-publish-time="${post.spec.publishTime}" style="display: none;">
+          <div class="post-outdated-notice" id="post-outdated-notice" th:if="${theme.config.post == null || theme.config.post.outdatedNoticeConfig == null || theme.config.post.outdatedNoticeConfig.showOutdatedNotice == null || theme.config.post.outdatedNoticeConfig.showOutdatedNotice}" th:data-publish-time="${post.spec.publishTime}" style="display: none;">
             <svg class="notice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="10"/>
               <line x1="12" y1="8" x2="12" y2="12"/>
@@ -200,7 +200,7 @@
             <p th:unless="${post.content != null and post.content.content != null}">文章内容加载中...</p>
           </div>
 
-          <div class="post-copyright" th:if="${theme.config.post == null || theme.config.post.showCopyright == null || theme.config.post.showCopyright}">
+          <div class="post-copyright" th:if="${theme.config.post == null || theme.config.post.copyrightConfig == null || theme.config.post.copyrightConfig.showCopyright == null || theme.config.post.copyrightConfig.showCopyright}">
             <div class="copyright-content">
               <div class="copyright-header">
                 <span class="copyright-badge">原创</span>
@@ -214,7 +214,7 @@
                 </svg>
                 <a th:href="@{${post.status.permalink}}" class="copyright-link" th:text="${post.spec.title}">探索 Next.js 14 的新特性与最佳实践</a>
               </div>
-              <p class="copyright-text" th:utext="${theme.config.post != null && theme.config.post.copyrightText != null ? theme.config.post.copyrightText : '本文采用 &lt;a href=&quot;https://creativecommons.org/licenses/by-nc-sa/4.0/&quot; target=&quot;_blank&quot; class=&quot;copyright-license&quot;&gt;CC BY-NC-SA 4.0&lt;/a&gt; 协议，转载请注明出处。'}">
+              <p class="copyright-text" th:utext="${theme.config.post != null && theme.config.post.copyrightConfig != null && theme.config.post.copyrightConfig.copyrightText != null ? theme.config.post.copyrightConfig.copyrightText : '本文采用 &lt;a href=&quot;https://creativecommons.org/licenses/by-nc-sa/4.0/&quot; target=&quot;_blank&quot; class=&quot;copyright-license&quot;&gt;CC BY-NC-SA 4.0&lt;/a&gt; 协议，转载请注明出处。'}">
                 本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" class="copyright-license">CC BY-NC-SA 4.0</a> 协议，转载请注明出处。
               </p>
             </div>
@@ -227,7 +227,7 @@
           </div>
 
           <!-- 分享按钮 -->
-          <div class="post-share" th:if="${theme.config.post == null || theme.config.post.showShare == null || theme.config.post.showShare}"
+          <div class="post-share" th:if="${theme.config.post == null || theme.config.post.shareConfig == null || theme.config.post.shareConfig.showShare == null || theme.config.post.shareConfig.showShare}"
                th:data-title="${post.spec.title}"
                th:data-url="${post.status.permalink}">
             <span class="share-label">分享：</span>
@@ -268,13 +268,13 @@
             </div>
           </div>
 
-          <div class="post-reward" th:if="${theme.config.post != null && theme.config.post.showReward && theme.config.post.rewardQrCode != null && !#strings.isEmpty(theme.config.post.rewardQrCode)}">
+          <div class="post-reward" th:if="${theme.config.post != null && theme.config.post.rewardConfig != null && theme.config.post.rewardConfig.showReward && theme.config.post.rewardConfig.rewardQrCode != null && !#strings.isEmpty(theme.config.post.rewardConfig.rewardQrCode)}">
             <div class="reward-qrcode">
-              <img th:src="${theme.config.post.rewardQrCode}" alt="打赏二维码" loading="lazy" />
+              <img th:src="${theme.config.post.rewardConfig.rewardQrCode}" alt="打赏二维码" loading="lazy" />
             </div>
             <div class="reward-content">
-              <h2 class="reward-title" th:text="${theme.config.post.rewardTitle ?: '赞赏支持'}">赞赏支持</h2>
-              <p class="reward-text" th:text="${theme.config.post.rewardText ?: '如果觉得文章对你有帮助，可以请作者喝杯咖啡 ☕'}">如果觉得文章对你有帮助，可以请作者喝杯咖啡 ☕</p>
+              <h2 class="reward-title" th:text="${theme.config.post.rewardConfig.rewardTitle ?: '赞赏支持'}">赞赏支持</h2>
+              <p class="reward-text" th:text="${theme.config.post.rewardConfig.rewardText ?: '如果觉得文章对你有帮助，可以请作者喝杯咖啡 ☕'}">如果觉得文章对你有帮助，可以请作者喝杯咖啡 ☕</p>
               <div class="reward-icon">
                 <svg viewBox="0 0 24 24" fill="currentColor">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -382,11 +382,11 @@
                   </div>
                   <div class="widget-author">
                     <img class="author-avatar" 
-                         th:src="${post.owner != null && post.owner.avatar != null && !#strings.isEmpty(post.owner.avatar) ? post.owner.avatar : (theme.config.hero.avatar ?: (theme.config.basic.logo ?: '/themes/theme-Serenity/assets/public/ics6.webp'))}" 
-                         th:alt="${post.owner != null ? post.owner.displayName : theme.config.basic.author}" />
+                         th:src="${post.owner != null && post.owner.avatar != null && !#strings.isEmpty(post.owner.avatar) ? post.owner.avatar : (site.logo ?: '/themes/theme-Serenity/assets/public/ics6.webp')}" 
+                         th:alt="${post.owner != null ? post.owner.displayName : theme.config.basic.siteInfo.author}" />
                     <div class="author-info">
                       <a class="author-name-link" th:href="@{/about}" href="/about">
-                        <h4 class="author-name" th:text="${post.owner != null ? post.owner.displayName : (theme.config.basic.author ?: 'Administrator')}">Administrator</h4>
+                        <h4 class="author-name" th:text="${post.owner != null ? post.owner.displayName : (theme.config.basic.siteInfo.author ?: 'Administrator')}">Administrator</h4>
                         <span class="author-hover-icon">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="2" y="4" width="20" height="16" rx="2"/>
@@ -395,7 +395,7 @@
                           </svg>
                         </span>
                       </a>
-                      <p class="author-bio" th:text="${post.owner != null && post.owner.bio != null && !#strings.isEmpty(post.owner.bio) ? post.owner.bio : (theme.config.basic.description ?: '暂无简介')}">暂无简介</p>
+                      <p class="author-bio" th:text="${post.owner != null && post.owner.bio != null && !#strings.isEmpty(post.owner.bio) ? post.owner.bio : (theme.config.basic.siteInfo.description ?: '暂无简介')}">暂无简介</p>
                     </div>
                     <div class="author-stats">
                       <div class="stat-item">
@@ -415,7 +415,7 @@
                   </div>
                 </div>
 
-                <div th:if="${item.component == 'related' && item.enabled}" class="sidebar-widget" th:with="relatedCount = ${theme.config.post != null && theme.config.post.relatedCount != null ? theme.config.post.relatedCount : 3}">
+                <div th:if="${item.component == 'related' && item.enabled}" class="sidebar-widget" th:with="relatedCount = ${theme.config.post != null && theme.config.post.relatedConfig != null && theme.config.post.relatedConfig.relatedCount != null ? theme.config.post.relatedConfig.relatedCount : 3}">
                   <div class="widget-header">
                     <svg class="widget-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -495,11 +495,11 @@
                 </div>
                 <div class="widget-author">
                   <img class="author-avatar" 
-                       th:src="${post.owner != null && post.owner.avatar != null && !#strings.isEmpty(post.owner.avatar) ? post.owner.avatar : (theme.config.hero.avatar ?: (theme.config.basic.logo ?: '/themes/theme-Serenity/assets/public/ics6.webp'))}" 
-                       th:alt="${post.owner != null ? post.owner.displayName : theme.config.basic.author}" />
+                       th:src="${post.owner != null && post.owner.avatar != null && !#strings.isEmpty(post.owner.avatar) ? post.owner.avatar : (site.logo ?: '/themes/theme-Serenity/assets/public/ics6.webp')}" 
+                       th:alt="${post.owner != null ? post.owner.displayName : theme.config.basic.siteInfo.author}" />
                   <div class="author-info">
                     <a class="author-name-link" th:href="@{/about}" href="/about">
-                      <h4 class="author-name" th:text="${post.owner != null ? post.owner.displayName : (theme.config.basic.author ?: 'Administrator')}">Administrator</h4>
+                      <h4 class="author-name" th:text="${post.owner != null ? post.owner.displayName : (theme.config.basic.siteInfo.author ?: 'Administrator')}">Administrator</h4>
                       <span class="author-hover-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                           <rect x="2" y="4" width="20" height="16" rx="2"/>
@@ -508,7 +508,7 @@
                         </svg>
                       </span>
                     </a>
-                    <p class="author-bio" th:text="${post.owner != null && post.owner.bio != null && !#strings.isEmpty(post.owner.bio) ? post.owner.bio : (theme.config.basic.description ?: '暂无简介')}">暂无简介</p>
+                    <p class="author-bio" th:text="${post.owner != null && post.owner.bio != null && !#strings.isEmpty(post.owner.bio) ? post.owner.bio : (theme.config.basic.siteInfo.description ?: '暂无简介')}">暂无简介</p>
                   </div>
                   <div class="author-stats">
                     <div class="stat-item">
@@ -528,7 +528,7 @@
                 </div>
               </div>
 
-              <div class="sidebar-widget" th:with="relatedCount = ${theme.config.post != null && theme.config.post.relatedCount != null ? theme.config.post.relatedCount : 3}">
+              <div class="sidebar-widget" th:with="relatedCount = ${theme.config.post != null && theme.config.post.relatedConfig != null && theme.config.post.relatedConfig.relatedCount != null ? theme.config.post.relatedConfig.relatedCount : 3}">
                 <div class="widget-header">
                   <svg class="widget-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>

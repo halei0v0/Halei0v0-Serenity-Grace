@@ -20,29 +20,29 @@
         }
       })();
     </script>
-    <script th:if="${theme.config.home != null and theme.config.home.showWeatherClock}" th:inline="javascript">
+    <script th:if="${theme.config.home != null and theme.config.home.weatherConfig != null and theme.config.home.weatherConfig.showWeatherClock}" th:inline="javascript">
       window.WEATHER_CONFIG = {
-        apiKey: /*[[${theme.config.home.seniverseKey}]]*/ '',
+        apiKey: /*[[${theme.config.home.weatherConfig.seniverseKey}]]*/ '',
         showTime: true,
         showWeather: true,
         showTemperature: true,
         showCity: true
       };
     </script>
-    <script th:if="${theme.config.home != null and theme.config.home.showWeatherClock}" th:src="@{/assets/js/weather-clock.js}" defer></script>
+    <script th:if="${theme.config.home != null and theme.config.home.weatherConfig != null and theme.config.home.weatherConfig.showWeatherClock}" th:src="@{/assets/js/weather-clock.js}" defer></script>
   </th:block>
   <th:block th:fragment="content">
     <main class="main">
-      <div class="hero-background" th:if="${theme.config.home == null || theme.config.home.showHeroBackground == null || theme.config.home.showHeroBackground}"
-           th:with="hasApi = ${theme.config.home != null and theme.config.home.heroBackgroundApi != null and not #strings.isEmpty(theme.config.home.heroBackgroundApi)}">
+      <div class="hero-background" th:if="${theme.config.home == null || theme.config.home.backgroundConfig == null || theme.config.home.backgroundConfig.showHeroBackground == null || theme.config.home.backgroundConfig.showHeroBackground}"
+           th:with="hasApi = ${theme.config.home != null and theme.config.home.backgroundConfig != null and theme.config.home.backgroundConfig.heroBackgroundApi != null and not #strings.isEmpty(theme.config.home.backgroundConfig.heroBackgroundApi)}">
         <th:block th:if="${hasApi}">
           <img class="hero-background-img hero-bg-api-img" 
                alt="" 
-               th:data-api="${theme.config.home.heroBackgroundApi}"
-               th:data-api-mobile="${theme.config.home.heroBackgroundApiMobile}" />
+               th:data-api="${theme.config.home.backgroundConfig.heroBackgroundApi}"
+               th:data-api-mobile="${theme.config.home.backgroundConfig.heroBackgroundApiMobile}" />
         </th:block>
         <th:block th:unless="${hasApi}">
-          <th:block th:with="bgUrl = ${(theme.config.home != null and theme.config.home.heroBackground != null and not #strings.isEmpty(theme.config.home.heroBackground)) ? theme.config.home.heroBackground : '/themes/theme-Serenity/assets/public/labixiaoxi.webp'}">
+          <th:block th:with="bgUrl = ${(theme.config.home != null and theme.config.home.backgroundConfig != null and theme.config.home.backgroundConfig.heroBackground != null and not #strings.isEmpty(theme.config.home.backgroundConfig.heroBackground)) ? theme.config.home.backgroundConfig.heroBackground : '/themes/theme-Serenity/assets/public/labixiaoxi.webp'}">
             <video th:if="${#strings.endsWith(#strings.toLowerCase(bgUrl), '.mp4') || #strings.endsWith(#strings.toLowerCase(bgUrl), '.webm')}" 
                    th:src="${bgUrl}" 
                    class="hero-background-img loaded"
@@ -60,7 +60,7 @@
       </div>
       
       <!-- 首页背景 API 脚本 -->
-      <script th:if="${theme.config.home != null && !#strings.isEmpty(theme.config.home.heroBackgroundApi)}" th:inline="javascript">
+      <script th:if="${theme.config.home != null && theme.config.home.backgroundConfig != null && !#strings.isEmpty(theme.config.home.backgroundConfig.heroBackgroundApi)}" th:inline="javascript">
         (function() {
           var img = document.querySelector('.hero-bg-api-img');
           if (!img) return;
@@ -106,13 +106,13 @@
           <div class="hero-profile">
             <div class="hero-avatar-wrapper">
               <div class="hero-avatar"
-                   th:style="${theme.config.hero.avatarGlowColor != null and !#strings.isEmpty(theme.config.hero.avatarGlowColor) ? '--avatar-glow:' + theme.config.hero.avatarGlowColor : ''}">
-              <img th:src="${theme.config.hero.avatar ?: '/themes/theme-Serenity/assets/public/ics6.webp'}" 
+                   th:style="${theme.config.hero.colorConfig.avatarGlowColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.avatarGlowColor) ? '--avatar-glow:' + theme.config.hero.colorConfig.avatarGlowColor : ''}">
+              <img th:src="${site.logo ?: '/themes/theme-Serenity/assets/public/ics6.webp'}" 
                    th:alt="${site.title}" alt="Avatar" />
             </div>
               <!-- 天气时钟 - 头像下方 -->
-              <div class="hero-weather-bar" th:if="${theme.config.home != null && theme.config.home.showWeatherClock}"
-                   th:style="${theme.config.hero.weatherColor != null and !#strings.isEmpty(theme.config.hero.weatherColor) ? '--weather-color:' + theme.config.hero.weatherColor : ''}">
+              <div class="hero-weather-bar" th:if="${theme.config.home != null && theme.config.home.weatherConfig != null && theme.config.home.weatherConfig.showWeatherClock}"
+                   th:style="${theme.config.hero.colorConfig.weatherColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.weatherColor) ? '--weather-color:' + theme.config.hero.colorConfig.weatherColor : ''}">
                 <span class="weather-item">
                   <span class="weather-text" id="heroTime">--:--</span>
                 </span>
@@ -129,24 +129,24 @@
             </div>
             
             <div class="hero-info">
-              <h1 class="hero-name" th:if="${theme.config.hero.enableTypewriter == true}"
-                  th:classappend="${theme.config.hero.nameColor != null and !#strings.isEmpty(theme.config.hero.nameColor) ? ' hero-name-custom' : ''}"
-                  th:style="${theme.config.hero.nameColor != null and !#strings.isEmpty(theme.config.hero.nameColor) ? 'background:' + theme.config.hero.nameColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : ''}">
-                <span class="typewriter-text" th:attr="data-text=${theme.config.hero.name ?: site.title},data-backspace=${theme.config.hero.enableTypewriterBackspace == true ? 'true' : 'false'}">Serenity</span>
+              <h1 class="hero-name" th:if="${theme.config.hero.profileInfo.enableTypewriter == true}"
+                  th:classappend="${theme.config.hero.colorConfig.nameColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.nameColor) ? ' hero-name-custom' : ''}"
+                  th:style="${theme.config.hero.colorConfig.nameColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.nameColor) ? 'background:' + theme.config.hero.colorConfig.nameColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : ''}">
+                <span class="typewriter-text" th:attr="data-text=${theme.config.hero.profileInfo.name ?: site.title},data-backspace=${theme.config.hero.profileInfo.enableTypewriterBackspace == true ? 'true' : 'false'}">Serenity</span>
                 <span class="typewriter-cursor"
-                      th:classappend="${theme.config.hero.nameColor != null and !#strings.isEmpty(theme.config.hero.nameColor) ? ' typewriter-cursor-custom' : ''}"
-                      th:style="${theme.config.hero.nameColor != null and !#strings.isEmpty(theme.config.hero.nameColor) ? 'background:' + theme.config.hero.nameColor : ''}"></span>
+                      th:classappend="${theme.config.hero.colorConfig.nameColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.nameColor) ? ' typewriter-cursor-custom' : ''}"
+                      th:style="${theme.config.hero.colorConfig.nameColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.nameColor) ? 'background:' + theme.config.hero.colorConfig.nameColor : ''}"></span>
               </h1>
-              <h1 class="hero-name" th:if="${theme.config.hero.enableTypewriter != true}" th:text="${theme.config.hero.name ?: site.title}"
-                  th:classappend="${theme.config.hero.nameColor != null and !#strings.isEmpty(theme.config.hero.nameColor) ? ' hero-name-custom' : ''}"
-                  th:style="${theme.config.hero.nameColor != null and !#strings.isEmpty(theme.config.hero.nameColor) ? 'background:' + theme.config.hero.nameColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : ''}">Serenity</h1>
+              <h1 class="hero-name" th:if="${theme.config.hero.profileInfo.enableTypewriter != true}" th:text="${theme.config.hero.profileInfo.name ?: site.title}"
+                  th:classappend="${theme.config.hero.colorConfig.nameColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.nameColor) ? ' hero-name-custom' : ''}"
+                  th:style="${theme.config.hero.colorConfig.nameColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.nameColor) ? 'background:' + theme.config.hero.colorConfig.nameColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : ''}">Serenity</h1>
               
-              <p class="hero-tagline" th:text="${theme.config.hero.tagline ?: site.subtitle}"
-                 th:classappend="${theme.config.hero.taglineColor != null and !#strings.isEmpty(theme.config.hero.taglineColor) ? ' hero-tagline-custom' : ''}"
-                 th:style="${theme.config.hero.taglineColor != null and !#strings.isEmpty(theme.config.hero.taglineColor) ? (#strings.contains(theme.config.hero.taglineColor, 'gradient') ? 'background:' + theme.config.hero.taglineColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : 'color:' + theme.config.hero.taglineColor) : ''}">一个热爱技术与生活的开发者</p>
-              <p class="hero-bio" th:text="${theme.config.hero.bio ?: '专注于前端开发，热爱开源，喜欢分享技术与生活。'}"
-                 th:classappend="${theme.config.hero.bioColor != null and !#strings.isEmpty(theme.config.hero.bioColor) ? ' hero-bio-custom' : ''}"
-                 th:style="${theme.config.hero.bioColor != null and !#strings.isEmpty(theme.config.hero.bioColor) ? (#strings.contains(theme.config.hero.bioColor, 'gradient') ? 'background:' + theme.config.hero.bioColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : 'color:' + theme.config.hero.bioColor) : ''}">专注于前端开发，热爱开源，喜欢分享技术与生活。</p>
+              <p class="hero-tagline" th:text="${theme.config.hero.profileInfo.tagline ?: site.subtitle}"
+                 th:classappend="${theme.config.hero.colorConfig.taglineColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.taglineColor) ? ' hero-tagline-custom' : ''}"
+                 th:style="${theme.config.hero.colorConfig.taglineColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.taglineColor) ? (#strings.contains(theme.config.hero.colorConfig.taglineColor, 'gradient') ? 'background:' + theme.config.hero.colorConfig.taglineColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : 'color:' + theme.config.hero.colorConfig.taglineColor) : ''}">一个热爱技术与生活的开发者</p>
+              <p class="hero-bio" th:text="${theme.config.hero.profileInfo.bio ?: '专注于前端开发，热爱开源，喜欢分享技术与生活。'}"
+                 th:classappend="${theme.config.hero.colorConfig.bioColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.bioColor) ? ' hero-bio-custom' : ''}"
+                 th:style="${theme.config.hero.colorConfig.bioColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.bioColor) ? (#strings.contains(theme.config.hero.colorConfig.bioColor, 'gradient') ? 'background:' + theme.config.hero.colorConfig.bioColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : 'color:' + theme.config.hero.colorConfig.bioColor) : ''}">专注于前端开发，热爱开源，喜欢分享技术与生活。</p>
               
               <div class="hero-social" th:if="${theme.config.social != null && theme.config.social.links != null}">
                 <th:block th:each="link : ${theme.config.social.links}">
@@ -171,7 +171,7 @@
                     </th:block>
                   </a>
                 </th:block>
-                <div th:if="${theme.config.social != null && theme.config.social.enableSponsor && theme.config.social.sponsorQrCode != null && !#strings.isEmpty(theme.config.social.sponsorQrCode)}" 
+                <div th:if="${theme.config.social != null && theme.config.social.sponsorConfig != null && theme.config.social.sponsorConfig.enableSponsor && theme.config.social.sponsorConfig.sponsorQrCode != null && !#strings.isEmpty(theme.config.social.sponsorConfig.sponsorQrCode)}" 
                      class="social-link sponsor-link" 
                      title="赞助支持">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -179,15 +179,15 @@
                   </svg>
                   <div class="sponsor-qrcode">
                     <div class="sponsor-qrcode-img">
-                      <img th:src="${theme.config.social.sponsorQrCode}" alt="赞助二维码" />
+                      <img th:src="${theme.config.social.sponsorConfig.sponsorQrCode}" alt="赞助二维码" />
                     </div>
                     <div class="sponsor-qrcode-content">
-                      <h4 class="sponsor-qrcode-title" th:text="${theme.config.social.sponsorTitle ?: '赞赏支持'}">赞赏支持</h4>
-                      <p class="sponsor-qrcode-text" th:text="${theme.config.social.sponsorText ?: '感谢你的支持 ❤️'}">感谢你的支持 ❤️</p>
+                      <h4 class="sponsor-qrcode-title" th:text="${theme.config.social.sponsorConfig.sponsorTitle ?: '赞赏支持'}">赞赏支持</h4>
+                      <p class="sponsor-qrcode-text" th:text="${theme.config.social.sponsorConfig.sponsorText ?: '感谢你的支持 ❤️'}">感谢你的支持 ❤️</p>
                     </div>
                   </div>
                 </div>
-                <a th:if="${theme.config.social == null || theme.config.social.showRss == null || theme.config.social.showRss}" 
+                <a th:if="${theme.config.social == null || theme.config.social.rssConfig == null || theme.config.social.rssConfig.showRss == null || theme.config.social.rssConfig.showRss}" 
                    th:href="@{/rss.xml}" 
                    class="social-link" 
                    title="RSS">
@@ -198,9 +198,9 @@
           </div>
         </div>
 
-        <div class="theme-decor" th:if="${theme.config.home == null || theme.config.home.showThemeDecor == null || theme.config.home.showThemeDecor}">
-          <img th:src="${theme.config.home != null && theme.config.home.customDecorLight != null && !#strings.isEmpty(theme.config.home.customDecorLight) ? theme.config.home.customDecorLight : '/themes/theme-Serenity/assets/public/light.webp'}" alt="" class="theme-decor-light" />
-          <img th:src="${theme.config.home != null && theme.config.home.customDecorDark != null && !#strings.isEmpty(theme.config.home.customDecorDark) ? theme.config.home.customDecorDark : '/themes/theme-Serenity/assets/public/dark.webp'}" alt="" class="theme-decor-dark" />
+        <div class="theme-decor" th:if="${theme.config.home == null || theme.config.home.decorConfig == null || theme.config.home.decorConfig.showThemeDecor == null || theme.config.home.decorConfig.showThemeDecor}">
+          <img th:src="${theme.config.home != null && theme.config.home.decorConfig != null && theme.config.home.decorConfig.customDecorLight != null && !#strings.isEmpty(theme.config.home.decorConfig.customDecorLight) ? theme.config.home.decorConfig.customDecorLight : '/themes/theme-Serenity/assets/public/light.webp'}" alt="" class="theme-decor-light" />
+          <img th:src="${theme.config.home != null && theme.config.home.decorConfig != null && theme.config.home.decorConfig.customDecorDark != null && !#strings.isEmpty(theme.config.home.decorConfig.customDecorDark) ? theme.config.home.decorConfig.customDecorDark : '/themes/theme-Serenity/assets/public/dark.webp'}" alt="" class="theme-decor-dark" />
         </div>
 
         <div class="hero-scroll">
@@ -210,29 +210,29 @@
         </div>
       </section>
 
-      <section class="compass-zone" th:if="${theme.config.compass != null && theme.config.compass.enabled}">
+      <section class="compass-zone" th:if="${theme.config.compass != null && theme.config.compass.compassConfig.enabled}">
         <div class="container">
           <div class="hero-compass">
-            <h2 class="compass-title" data-aos="fade-up" th:text="${theme.config.compass.title ?: '风向标'}">风向标</h2>
-            <p class="compass-subtitle" data-aos="fade-up" data-aos-delay="100" th:text="${theme.config.compass.subtitle ?: '快速导航到你想去的地方'}">快速导航到你想去的地方</p>
+            <h2 class="compass-title" data-aos="fade-up" th:text="${theme.config.compass.compassConfig.title ?: '风向标'}">风向标</h2>
+            <p class="compass-subtitle" data-aos="fade-up" data-aos-delay="100" th:text="${theme.config.compass.compassConfig.subtitle ?: '快速导航到你想去的地方'}">快速导航到你想去的地方</p>
             <div class="compass-grid">
               <!--/* 遍历主菜单（含子菜单），根据风向标开关过滤，图标和文字与导航菜单同步 */-->
               <th:block th:each="menuItem, iterStat : ${menuFinder.getPrimary().menuItems}">
                 <!--/* 一级菜单项（无子菜单，或本身也有链接） */-->
                 <th:block th:with="mHref=${menuItem.status.href}">
                   <a th:if="${
-                    (#strings.contains(mHref, '/archives') and theme.config.compass.showArchives) or
-                    (#strings.contains(mHref, '/tags') and theme.config.compass.showTags) or
-                    (#strings.contains(mHref, '/categories') and theme.config.compass.showCategories) or
-                    (#strings.contains(mHref, '/about') and theme.config.compass.showAbout) or
-                    (#strings.contains(mHref, '/moments') and theme.config.compass.showMoments) or
-                    (#strings.contains(mHref, '/links') and theme.config.compass.showLinks) or
-                    (#strings.contains(mHref, '/guestbook') and theme.config.compass.showGuestbook) or
-                    (#strings.contains(mHref, '/projects') and theme.config.compass.showProjects) or
-                    (#strings.contains(mHref, '/photos') and theme.config.compass.showPhotos) or
-                    (#strings.contains(mHref, '/friends-circle') and theme.config.compass.showFriendsCircle) or
-                    (#strings.contains(mHref, '/wishes') and (theme.config.compass.showWishes ?: true)) or
-                    (#strings.contains(mHref, '/equipments') and (theme.config.compass.showEquipments ?: true))
+                    (#strings.contains(mHref, '/archives') and theme.config.compass.compassConfig.showArchives) or
+                    (#strings.contains(mHref, '/tags') and theme.config.compass.compassConfig.showTags) or
+                    (#strings.contains(mHref, '/categories') and theme.config.compass.compassConfig.showCategories) or
+                    (#strings.contains(mHref, '/about') and theme.config.compass.compassConfig.showAbout) or
+                    (#strings.contains(mHref, '/moments') and theme.config.compass.compassConfig.showMoments) or
+                    (#strings.contains(mHref, '/links') and theme.config.compass.compassConfig.showLinks) or
+                    (#strings.contains(mHref, '/guestbook') and theme.config.compass.compassConfig.showGuestbook) or
+                    (#strings.contains(mHref, '/projects') and theme.config.compass.compassConfig.showProjects) or
+                    (#strings.contains(mHref, '/photos') and theme.config.compass.compassConfig.showPhotos) or
+                    (#strings.contains(mHref, '/friends-circle') and theme.config.compass.compassConfig.showFriendsCircle) or
+                    (#strings.contains(mHref, '/wishes') and (theme.config.compass.compassConfig.showWishes ?: true)) or
+                    (#strings.contains(mHref, '/equipments') and (theme.config.compass.compassConfig.showEquipments ?: true))
                   }"
                      th:href="@{${mHref}}"
                      th:target="${menuItem.spec.target?.value}"
@@ -247,18 +247,18 @@
                           th:each="childMenu, childStat : ${menuItem.children}"
                           th:with="cHref=${childMenu.status.href}">
                   <a th:if="${
-                    (#strings.contains(cHref, '/archives') and theme.config.compass.showArchives) or
-                    (#strings.contains(cHref, '/tags') and theme.config.compass.showTags) or
-                    (#strings.contains(cHref, '/categories') and theme.config.compass.showCategories) or
-                    (#strings.contains(cHref, '/about') and theme.config.compass.showAbout) or
-                    (#strings.contains(cHref, '/moments') and theme.config.compass.showMoments) or
-                    (#strings.contains(cHref, '/links') and theme.config.compass.showLinks) or
-                    (#strings.contains(cHref, '/guestbook') and theme.config.compass.showGuestbook) or
-                    (#strings.contains(cHref, '/projects') and theme.config.compass.showProjects) or
-                    (#strings.contains(cHref, '/photos') and theme.config.compass.showPhotos) or
-                    (#strings.contains(cHref, '/friends-circle') and theme.config.compass.showFriendsCircle) or
-                    (#strings.contains(cHref, '/wishes') and (theme.config.compass.showWishes ?: true)) or
-                    (#strings.contains(cHref, '/equipments') and (theme.config.compass.showEquipments ?: true))
+                    (#strings.contains(cHref, '/archives') and theme.config.compass.compassConfig.showArchives) or
+                    (#strings.contains(cHref, '/tags') and theme.config.compass.compassConfig.showTags) or
+                    (#strings.contains(cHref, '/categories') and theme.config.compass.compassConfig.showCategories) or
+                    (#strings.contains(cHref, '/about') and theme.config.compass.compassConfig.showAbout) or
+                    (#strings.contains(cHref, '/moments') and theme.config.compass.compassConfig.showMoments) or
+                    (#strings.contains(cHref, '/links') and theme.config.compass.compassConfig.showLinks) or
+                    (#strings.contains(cHref, '/guestbook') and theme.config.compass.compassConfig.showGuestbook) or
+                    (#strings.contains(cHref, '/projects') and theme.config.compass.compassConfig.showProjects) or
+                    (#strings.contains(cHref, '/photos') and theme.config.compass.compassConfig.showPhotos) or
+                    (#strings.contains(cHref, '/friends-circle') and theme.config.compass.compassConfig.showFriendsCircle) or
+                    (#strings.contains(cHref, '/wishes') and (theme.config.compass.compassConfig.showWishes ?: true)) or
+                    (#strings.contains(cHref, '/equipments') and (theme.config.compass.compassConfig.showEquipments ?: true))
                   }"
                      th:href="@{${cHref}}"
                      th:target="${childMenu.spec.target?.value}"
@@ -274,7 +274,7 @@
         </div>
       </section>
 
-      <section class="feed-zone" th:with="showRecentPosts = ${theme.config.home == null || theme.config.home.showRecentPosts == null || theme.config.home.showRecentPosts}, showActivity = ${theme.config.home == null || theme.config.home.showActivity == null || theme.config.home.showActivity}">
+      <section class="feed-zone" th:with="showRecentPosts = ${theme.config.home == null || theme.config.home.recentPostsConfig == null || theme.config.home.recentPostsConfig.showRecentPosts == null || theme.config.home.recentPostsConfig.showRecentPosts}, showActivity = ${theme.config.home == null || theme.config.home.activityConfig == null || theme.config.home.activityConfig.showActivity == null || theme.config.home.activityConfig.showActivity}">
         <div class="container">
           <div class="feed-layout" th:classappend="${showRecentPosts && showActivity ? '' : 'feed-layout-single'}">
             <div class="feed-block" th:if="${showRecentPosts}" data-aos="fade-up">
@@ -415,7 +415,7 @@
             </div>
           </div>
 
-          <div class="memo-zone" data-aos="fade-up" th:if="${theme.config.home == null || theme.config.home.showMemoCards == null || theme.config.home.showMemoCards}" th:with="photoGroups = ${photoFinder != null ? photoFinder.groupBy() : null}">
+          <div class="memo-zone" data-aos="fade-up" th:if="${theme.config.home == null || theme.config.home.memoCardsConfig == null || theme.config.home.memoCardsConfig.showMemoCards == null || theme.config.home.memoCardsConfig.showMemoCards}" th:with="photoGroups = ${photoFinder != null ? photoFinder.groupBy() : null}">
             <div class="block-head">
               <h2 class="block-label">随想碎片</h2>
               <div class="memo-nav">
@@ -455,7 +455,7 @@
             </div>
           </div>
           
-          <div class="life-zone" data-aos="fade-up" th:if="${theme.config.home == null || theme.config.home.showLifeMoments == null || theme.config.home.showLifeMoments}" th:with="momentsResult = ${momentFinder != null ? momentFinder.list(1, 10) : null}">
+          <div class="life-zone" data-aos="fade-up" th:if="${theme.config.home == null || theme.config.home.lifeMomentsConfig == null || theme.config.home.lifeMomentsConfig.showLifeMoments == null || theme.config.home.lifeMomentsConfig.showLifeMoments}" th:with="momentsResult = ${momentFinder != null ? momentFinder.list(1, 10) : null}">
             <div class="block-head">
               <h2 class="block-label">生活回想</h2>
               <span class="block-subtitle">念念不忘必有回响</span>

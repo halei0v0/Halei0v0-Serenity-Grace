@@ -4,7 +4,7 @@
 <th:block th:fragment="head">
   <link rel="stylesheet" th:href="@{/assets/css/wishes.css}" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" th:content="${(pageTitle ?: '便签墙') + ' - ' + (theme.config.basic.title ?: site.title)}" />
+  <meta property="og:title" th:content="${(pageTitle ?: '便签墙') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
   <meta property="og:description" th:content="${pageSubtitle ?: '写下你的心愿，留下你的故事'}" />
   <script th:if="${wishFinder != null}" th:inline="javascript">
     window.__WISH_CONFIG__ = {
@@ -78,10 +78,11 @@
               </div>
               <span class="wish-card-label" th:text="${typeMap[wish.spec.type] ?: wish.spec.type}">类型</span>
             </div>
-            <div th:if="${wish.spec.type == 'wish' and wish.spec.status == 'pending'}" class="wish-status-badge pending">心愿中</div>
-            <div th:if="${wish.spec.type == 'wish' and wish.spec.status == 'doing'}" class="wish-status-badge doing">进行中</div>
-            <div th:if="${wish.spec.type == 'wish' and wish.spec.status == 'done'}" class="wish-status-badge done">已达成</div>
-            <div class="wish-card-body" th:text="${wish.spec.content}">内容</div>
+            <div class="wish-card-body">
+              <span th:text="${wish.spec.content}">内容</span>
+              <em th:if="${wish.spec.status == 'doing'}" class="wish-status-text">进行中</em>
+              <em th:if="${wish.spec.status == 'done'}" class="wish-status-text">已达成</em>
+            </div>
             <div th:if="${wish.spec.doneNote}" class="wish-card-done-note" th:text="${wish.spec.doneNote}"></div>
             <img th:if="${wish.spec.doneImage != null and wish.spec.status == 'done'}"
                  class="wish-card-done-img" th:src="${wish.spec.doneImage}" alt="" loading="lazy" />

@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-	th:replace="~{modules/layout :: html(title = ${theme.config.watermark?.equipments?.title ?: '装备'}, content = ~{::content}, head = ~{::head})}">
+	th:replace="~{modules/layout :: html(title = ${(theme.config.watermark?.equipments?.enabled == true ? theme.config.watermark.equipments.title : null) ?: '装备'}, content = ~{::content}, head = ~{::head})}">
 
 	<th:block th:fragment="head">
 		<link rel="stylesheet" th:href="@{/assets/css/equipments.css}">
 		<meta property="og:type" content="website" />
-		<meta property="og:title" th:content="${(theme.config.watermark?.equipments?.title ?: '装备') + ' - ' + (theme.config.basic.title ?: site.title)}" />
-		<meta property="og:description" th:content="${theme.config.watermark?.equipments?.subtitle ?: '工欲善其事，必先利其器'}" />
+		<meta property="og:title" th:content="${((theme.config.watermark?.equipments?.enabled == true ? theme.config.watermark.equipments.title : null) ?: '装备') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
+		<meta property="og:description" th:content="${(theme.config.watermark?.equipments?.enabled == true ? theme.config.watermark.equipments.subtitle : null) ?: '工欲善其事，必先利其器'}" />
 		<meta name="twitter:card" content="summary" />
-		<meta name="twitter:title" th:content="${(theme.config.watermark?.equipments?.title ?: '装备') + ' - ' + (theme.config.basic.title ?: site.title)}" />
+		<meta name="twitter:title" th:content="${((theme.config.watermark?.equipments?.enabled == true ? theme.config.watermark.equipments.title : null) ?: '装备') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
 	</th:block>
 
 	<th:block th:fragment="content">
 		<div class="container">
 			<header class="page-header" data-aos="fade-up">
-				<h1 class="page-title" th:text="${theme.config.watermark?.equipments?.title ?: '装备'}">装备</h1>
-				<p class="page-desc" th:text="${theme.config.watermark?.equipments?.subtitle ?: '工欲善其事，必先利其器'}">工欲善其事，必先利其器</p>
+				<h1 class="page-title" th:text="${(theme.config.watermark?.equipments?.enabled == true ? theme.config.watermark.equipments.title : null) ?: '装备'}">装备</h1>
+				<p class="page-desc" th:text="${(theme.config.watermark?.equipments?.enabled == true ? theme.config.watermark.equipments.subtitle : null) ?: '工欲善其事，必先利其器'}">工欲善其事，必先利其器</p>
 			</header>
 
 			<!-- 未安装插件提示 -->

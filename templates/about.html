@@ -3,29 +3,29 @@
       th:replace="~{modules/layout :: html(title = ${singlePage.spec.title}, content = ~{::content}, head = ~{::head})}">
 <th:block th:fragment="head">
   <link rel="stylesheet" th:href="@{/assets/css/about.css}" />
-  <link th:if="${theme.config.about != null && theme.config.about.showSteam}" rel="stylesheet" th:href="@{/assets/css/steam.css}" />
+  <link th:if="${theme.config.about != null && theme.config.about.steamConfig != null && theme.config.about.steamConfig.showSteam}" rel="stylesheet" th:href="@{/assets/css/steam.css}" />
   <meta property="og:type" content="profile" />
-  <meta property="og:title" th:content="${(singlePage.spec.title ?: '关于') + ' - ' + (theme.config.basic.title ?: site.title)}" />
-  <meta property="og:description" th:content="${theme.config.basic.description ?: site.subtitle}" />
-  <meta property="profile:username" th:content="${theme.config.basic.author ?: site.title}" />
-  <meta name="twitter:title" th:content="${(singlePage.spec.title ?: '关于') + ' - ' + (theme.config.basic.title ?: site.title)}" />
-  <meta name="twitter:description" th:content="${theme.config.basic.description ?: site.subtitle}" />
-  <script th:if="${theme.config.seo != null && (theme.config.seo.enableJsonLd == null || theme.config.seo.enableJsonLd)}" type="application/ld+json" th:inline="javascript">
+  <meta property="og:title" th:content="${(singlePage.spec.title ?: '关于') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
+  <meta property="og:description" th:content="${theme.config.basic.siteInfo.description ?: site.subtitle}" />
+  <meta property="profile:username" th:content="${theme.config.basic.siteInfo.author ?: site.title}" />
+  <meta name="twitter:title" th:content="${(singlePage.spec.title ?: '关于') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
+  <meta name="twitter:description" th:content="${theme.config.basic.siteInfo.description ?: site.subtitle}" />
+  <script th:if="${theme.config.seo != null && theme.config.seo.seoConfig != null && (theme.config.seo.seoConfig.enableJsonLd == null || theme.config.seo.seoConfig.enableJsonLd)}" type="application/ld+json" th:inline="javascript">
   {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
     "mainEntity": {
       "@type": "Person",
-      "name": /*[[${theme.config.basic.author ?: site.title}]]*/ "",
-      "description": /*[[${theme.config.basic.description ?: site.subtitle}]]*/ "",
-      "image": /*[[${theme.config.hero.avatar != null && !#strings.isEmpty(theme.config.hero.avatar) ? theme.config.hero.avatar : '/themes/theme-Serenity/assets/public/ics6.webp'}]]*/ "",
+      "name": /*[[${theme.config.basic.siteInfo.author ?: site.title}]]*/ "",
+      "description": /*[[${theme.config.basic.siteInfo.description ?: site.subtitle}]]*/ "",
+      "image": /*[[${site.logo != null && !#strings.isEmpty(site.logo) ? site.logo : '/themes/theme-Serenity/assets/public/ics6.webp'}]]*/ "",
       "url": /*[[${site.url}]]*/ ""
     }
   }
   </script>
   <script th:src="@{/assets/js/iconify.min.js}" defer></script>
-  <script th:if="${theme.config.about != null && theme.config.about.showForeverBlog}" th:src="@{/assets/js/about.js}" defer></script>
-  <script th:if="${theme.config.about != null && theme.config.about.showSteam}" th:src="@{/assets/js/steam.js}" defer></script>
+  <script th:if="${theme.config.about != null && theme.config.about.foreverBlogConfig != null && theme.config.about.foreverBlogConfig.showForeverBlog}" th:src="@{/assets/js/about.js}" defer></script>
+  <script th:if="${theme.config.about != null && theme.config.about.steamConfig != null && theme.config.about.steamConfig.showSteam}" th:src="@{/assets/js/steam.js}" defer></script>
   <script th:if="${theme.config.about != null && theme.config.about.afdianSettings != null && theme.config.about.afdianSettings.showAfdian}" th:src="@{/assets/js/about-afdian.js}"></script>
 </th:block>
 <th:block th:fragment="content">
@@ -33,44 +33,51 @@
     <section class="about-hero" data-aos="fade-up">
       <div class="about-hero-center">
         <div class="about-avatar-wrapper">
+          <th:block th:if="${theme.config.about != null && theme.config.about.tagsConfig != null && (theme.config.about.tagsConfig.showTags == null || theme.config.about.tagsConfig.showTags)}">
           <div class="hero-tags-left" data-aos="fade-right" data-aos-delay="100">
-            <th:block th:if="${theme.config.about != null && theme.config.about.tagsLeft != null}">
-              <span th:each="tag : ${theme.config.about.tagsLeft}" class="hero-tag" th:text="${tag.text}">标签</span>
+            <th:block th:if="${theme.config.about.tagsConfig.tagsLeft != null}">
+              <span th:each="tag : ${theme.config.about.tagsConfig.tagsLeft}" class="hero-tag" th:text="${tag.text}">标签</span>
             </th:block>
-            <th:block th:if="${theme.config.about == null || theme.config.about.tagsLeft == null}">
+            <th:block th:if="${theme.config.about.tagsConfig.tagsLeft == null}">
               <span class="hero-tag">热爱开源</span>
               <span class="hero-tag">设计爱好者</span>
               <span class="hero-tag">终身学习</span>
             </th:block>
           </div>
           <div class="about-hero-avatar" data-aos="zoom-in" data-aos-delay="200">
-            <img th:src="${theme.config.hero.avatar ?: '/themes/theme-Serenity/assets/public/ics6.webp'}" alt="Avatar" />
+            <img th:src="${site.logo ?: '/themes/theme-Serenity/assets/public/ics6.webp'}" alt="Avatar" />
           </div>
           <div class="hero-tags-right" data-aos="fade-left" data-aos-delay="100">
-            <th:block th:if="${theme.config.about != null && theme.config.about.tagsRight != null}">
-              <span th:each="tag : ${theme.config.about.tagsRight}" class="hero-tag" th:text="${tag.text}">标签</span>
+            <th:block th:if="${theme.config.about.tagsConfig.tagsRight != null}">
+              <span th:each="tag : ${theme.config.about.tagsConfig.tagsRight}" class="hero-tag" th:text="${tag.text}">标签</span>
             </th:block>
-            <th:block th:if="${theme.config.about == null || theme.config.about.tagsRight == null}">
+            <th:block th:if="${theme.config.about.tagsConfig.tagsRight == null}">
               <span class="hero-tag">前端开发</span>
               <span class="hero-tag">独立开发者</span>
               <span class="hero-tag">折腾爱好者</span>
             </th:block>
           </div>
+          </th:block>
+          <th:block th:if="${theme.config.about == null || theme.config.about.tagsConfig == null || (theme.config.about.tagsConfig.showTags != null && !theme.config.about.tagsConfig.showTags)}">
+          <div class="about-hero-avatar" data-aos="zoom-in" data-aos-delay="200">
+            <img th:src="${site.logo ?: '/themes/theme-Serenity/assets/public/ics6.webp'}" alt="Avatar" />
+          </div>
+          </th:block>
         </div>
         <div class="about-hero-info" data-aos="fade-up" data-aos-delay="300">
-          <h1 class="about-name" th:text="${theme.config.basic.author ?: site.title}">Serenity</h1>
+          <h1 class="about-name" th:text="${theme.config.basic.siteInfo.author ?: site.title}">Serenity</h1>
           <p class="about-bio" th:text="${site.subtitle}">前端开发者 / 独立开发者 / 博主</p>
         </div>
       </div>
     </section>
 
-    <div class="about-card glass-card about-card-with-mascot" data-aos="fade-up" data-aos-delay="100" th:with="siteStats = ${siteStatsFinder.getStats()}">
+    <div th:if="${theme.config.about == null || theme.config.about.aboutSiteConfig == null || theme.config.about.aboutSiteConfig.showAboutSite == null || theme.config.about.aboutSiteConfig.showAboutSite}" class="about-card glass-card about-card-with-mascot" data-aos="fade-up" data-aos-delay="100" th:with="siteStats = ${siteStatsFinder.getStats()}">
       <!-- 站在卡片上的吉祥物 -->
-      <th:block th:if="${theme.config.about == null || theme.config.about.showMascot == null || theme.config.about.showMascot}">
+      <th:block th:if="${theme.config.about == null || theme.config.about.mascotConfig == null || theme.config.about.mascotConfig.showMascot == null || theme.config.about.mascotConfig.showMascot}">
         <div class="about-card-mascot">
-          <img th:src="${theme.config.about != null && theme.config.about.mascotImage != null && !#strings.isEmpty(theme.config.about.mascotImage) ? theme.config.about.mascotImage : '/themes/theme-Serenity/assets/images/about-mascot.gif'}" alt="" />
+          <img th:src="${theme.config.about != null && theme.config.about.mascotConfig != null && theme.config.about.mascotConfig.mascotImage != null && !#strings.isEmpty(theme.config.about.mascotConfig.mascotImage) ? theme.config.about.mascotConfig.mascotImage : '/themes/theme-Serenity/assets/images/about-mascot.gif'}" alt="" />
         </div>
-        <span class="about-mascot-text" th:text="${theme.config.about != null && theme.config.about.mascotText != null && !#strings.isEmpty(theme.config.about.mascotText) ? theme.config.about.mascotText : '嘿，你好啊~'}">嘿，你好啊~</span>
+        <span class="about-mascot-text" th:text="${theme.config.about != null && theme.config.about.mascotConfig != null && theme.config.about.mascotConfig.mascotText != null && !#strings.isEmpty(theme.config.about.mascotConfig.mascotText) ? theme.config.about.mascotConfig.mascotText : '嘿，你好啊~'}">嘿，你好啊~</span>
       </th:block>
       <div class="card-decoration card-decoration-1"></div>
       <div class="card-decoration card-decoration-2"></div>
@@ -79,7 +86,7 @@
         关于本站
       </h2>
       <div class="about-content">
-        <div class="about-text" style="white-space: pre-line;" th:text="${theme.config.about != null ? theme.config.about.aboutSite : ''}">
+        <div class="about-text" style="white-space: pre-line;" th:text="${theme.config.about != null && theme.config.about.aboutSiteConfig != null ? theme.config.about.aboutSiteConfig.aboutSite : ''}">
           <p>嗨，欢迎来到我的小站。这里是我记录技术探索、分享生活感悟的地方。</p>
           <p>作为一名前端开发者，我热衷于探索新技术，追求简洁优雅的代码。工作之余，我喜欢折腾各种有趣的项目，也会在这里分享一些心得。</p>
         </div>
@@ -102,14 +109,14 @@
       </div>
     </div>
 
-    <div class="about-card glass-card" data-aos="fade-up" data-aos-delay="200">
+    <div th:if="${theme.config.about == null || theme.config.about.skillsConfig == null || theme.config.about.skillsConfig.showSkills == null || theme.config.about.skillsConfig.showSkills}" class="about-card glass-card" data-aos="fade-up" data-aos-delay="200">
       <div class="card-decoration card-decoration-3"></div>
       <h2 class="about-section-title">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
         技能
       </h2>
       <div class="skills-grid">
-        <div class="skill-card" th:each="skill : ${theme.config.about != null ? theme.config.about.skills : {}}">
+        <div class="skill-card" th:each="skill : ${theme.config.about != null && theme.config.about.skillsConfig != null ? theme.config.about.skillsConfig.skills : {}}">
           <!-- 自定义图标图片（优先级最高） -->
           <div th:if="${skill.customIcon != null && !#strings.isEmpty(skill.customIcon)}" class="skill-icon skill-icon-custom" th:style="${skill.iconColor != null && !#strings.isEmpty(skill.iconColor) ? 'background:' + skill.iconColor : ''}">
             <img th:src="${skill.customIcon}" th:alt="${skill.name}" />
@@ -137,14 +144,14 @@
       </div>
     </div>
 
-    <div class="about-card glass-card" data-aos="fade-up" data-aos-delay="300">
+    <div th:if="${theme.config.about == null || theme.config.about.siteHistoryConfig == null || theme.config.about.siteHistoryConfig.showSiteHistory == null || theme.config.about.siteHistoryConfig.showSiteHistory}" class="about-card glass-card" data-aos="fade-up" data-aos-delay="300">
       <th:block th:replace="~{modules/watermark :: watermark('about-card-watermark')}" />
       <div class="card-decoration card-decoration-2"></div>
       <h2 class="about-section-title">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         建站历程
       </h2>
-      <div class="about-history" style="white-space: pre-line;" th:text="${theme.config.about != null ? theme.config.about.siteHistory : ''}">
+      <div class="about-history" style="white-space: pre-line;" th:text="${theme.config.about != null && theme.config.about.siteHistoryConfig != null ? theme.config.about.siteHistoryConfig.siteHistory : ''}">
         <p>始建于<span class="highlight">2024年</span>，纯个人兴趣建站，记录技术与生活。</p>
         <p>最初使用 Hexo 搭建，后迁移至 <span class="highlight">Halo</span>，体验更现代化的博客系统。</p>
         <p>记录生活中的点滴，分享技术探索的心得，收藏有趣的发现，顺便当做备忘录。</p>
@@ -155,7 +162,7 @@
     </div>
 
     <!-- Steam 个人资料卡片 -->
-    <div th:if="${theme.config.about != null && theme.config.about.showSteam}" class="about-card glass-card" data-aos="fade-up" data-aos-delay="350">
+    <div th:if="${theme.config.about != null && theme.config.about.steamConfig != null && theme.config.about.steamConfig.showSteam}" class="about-card glass-card" data-aos="fade-up" data-aos-delay="350">
       <div class="card-decoration card-decoration-1"></div>
       <h2 class="about-section-title">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 12-5.373 12-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.454 1.012zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015z"/></svg>
@@ -169,7 +176,7 @@
       </div>
     </div>
 
-    <div th:if="${theme.config.about != null && theme.config.about.showForeverBlog}" class="about-card glass-card forever-blog-card" data-aos="fade-up" data-aos-delay="400">
+    <div th:if="${theme.config.about != null && theme.config.about.foreverBlogConfig != null && theme.config.about.foreverBlogConfig.showForeverBlog}" class="about-card glass-card forever-blog-card" data-aos="fade-up" data-aos-delay="400">
       <div class="card-decoration card-decoration-1"></div>
       <div class="forever-blog-header">
         <a href="https://www.foreverblog.cn/" target="_blank" rel="noopener noreferrer" class="forever-blog-logo">
@@ -195,7 +202,7 @@
 
     <!-- 爱发电 -->
     <div th:if="${theme.config.about != null && theme.config.about.afdianSettings != null && theme.config.about.afdianSettings.showAfdian}" class="about-card glass-card afdian-card" data-aos="fade-up" data-aos-delay="450"
-         th:with="afdianCfg = ${theme.config.about.afdianSettings}, sponsorData = ${afdianFinder != null ? afdianFinder.listAllSponsor() : null}, planData = ${afdianFinder != null ? afdianFinder.listAllPlan() : null}, productData = ${afdianFinder != null ? afdianFinder.listAllProduct() : null}">
+         th:with="afdianCfg = ${theme.config.about.afdianSettings}, sponsorData = ${afdianPlusFinder != null ? afdianPlusFinder.listAllSponsor() : null}, planData = ${afdianPlusFinder != null ? afdianPlusFinder.listAllPlan() : null}, productData = ${afdianPlusFinder != null ? afdianPlusFinder.listAllProduct() : null}, afdianLicensed = ${afdianPlusFinder != null ? afdianPlusFinder.isLicensed() : false}">
       <div class="card-decoration card-decoration-2"></div>
       <h2 class="about-section-title">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
@@ -212,12 +219,18 @@
                 <span class="sponsor-name" th:title="${sponsor.user.name}" th:text="${sponsor.user.name}">用户名</span>
                 <div class="sponsor-meta">
                   <span class="sponsor-amount" th:text="|¥${sponsor.all_sum_amount}|">¥0</span>
-                  <span class="sponsor-time" th:text="${afdianFinder.parseTime(sponsor.last_pay_time)}">2024-01-01</span>
+                  <span class="sponsor-time" th:text="${afdianPlusFinder.parseTime(sponsor.last_pay_time)}">2024-01-01</span>
                 </div>
               </div>
             </div>
           </th:block>
-          <th:block th:if="${sponsorData == null || sponsorData.data == null || sponsorData.data.list == null || sponsorData.data.list.isEmpty()}">
+          <th:block th:if="${afdianPlusFinder == null}">
+            <div class="afdian-empty">
+              <svg viewBox="0 0 1024 1024" fill="currentColor" width="48" height="48"><path d="M554.666667 341.333333v128h85.333333l-128 213.333334V554.666667h-85.333333l128-213.333334z m384 170.666667c0 234.666667-192 426.666667-426.666667 426.666667S85.333333 746.666667 85.333333 512 277.333333 85.333333 512 85.333333v128c-166.4 0-298.666667 132.266667-298.666667 298.666667s132.266667 298.666667 298.666667 298.666667 298.666667-132.266667 298.666667-298.666667h128z m-46.933334 42.666667h-42.666666c-21.333333 166.4-166.4 298.666667-337.066667 298.666666-187.733333 0-341.333333-153.6-341.333333-341.333333C170.666667 337.066667 302.933333 196.266667 469.333333 174.933333v-42.666666C277.333333 153.6 128 315.733333 128 512c0 213.333333 170.666667 384 384 384 196.266667 0 358.4-149.333333 379.733333-341.333333z m-89.6-106.666667l123.733334-29.866667C891.733333 256 763.733333 128 601.6 93.866667l-29.866667 123.733333c119.466667 29.866667 204.8 115.2 230.4 230.4z"/></svg>
+              <p>请安装并启用 Afdian Plus 插件</p>
+            </div>
+          </th:block>
+          <th:block th:if="${afdianPlusFinder != null && (sponsorData == null || sponsorData.data == null || sponsorData.data.list == null || sponsorData.data.list.isEmpty())}">
             <div class="afdian-empty">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               <p>暂无赞助者，成为第一个吧~</p>
@@ -225,7 +238,7 @@
           </th:block>
         </div>
       <!-- 发电方案（折叠面板） -->
-      <th:block th:if="${afdianCfg.showPlans != null && afdianCfg.showPlans}">
+      <th:block th:if="${afdianPlusFinder != null && afdianCfg.showPlans != null && afdianCfg.showPlans}">
         <button class="afdian-toggle-btn" data-afdian-toggle="afdian-plans-panel" onclick="toggleAfdianPanel('afdian-plans-panel')">
           <span class="afdian-section-title">发电方案</span>
           <svg class="afdian-toggle-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
@@ -250,13 +263,14 @@
             </div>
           </div>
           <div th:if="${planData == null || planData.data == null || planData.data.list == null || planData.data.list.isEmpty()}" class="afdian-empty">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-            <p>暂无发电方案</p>
+            <svg viewBox="0 0 1024 1024" fill="currentColor" width="48" height="48"><path d="M554.666667 341.333333v128h85.333333l-128 213.333334V554.666667h-85.333333l128-213.333334z m384 170.666667c0 234.666667-192 426.666667-426.666667 426.666667S85.333333 746.666667 85.333333 512 277.333333 85.333333 512 85.333333v128c-166.4 0-298.666667 132.266667-298.666667 298.666667s132.266667 298.666667 298.666667 298.666667 298.666667-132.266667 298.666667-298.666667h128z m-46.933334 42.666667h-42.666666c-21.333333 166.4-166.4 298.666667-337.066667 298.666666-187.733333 0-341.333333-153.6-341.333333-341.333333C170.666667 337.066667 302.933333 196.266667 469.333333 174.933333v-42.666666C277.333333 153.6 128 315.733333 128 512c0 213.333333 170.666667 384 384 384 196.266667 0 358.4-149.333333 379.733333-341.333333z m-89.6-106.666667l123.733334-29.866667C891.733333 256 763.733333 128 601.6 93.866667l-29.866667 123.733333c119.466667 29.866667 204.8 115.2 230.4 230.4z"/></svg>
+            <p th:if="${!afdianLicensed}">需要开启插件高级功能</p>
+            <p th:if="${afdianLicensed}">暂无发电方案</p>
           </div>
         </div>
       </th:block>
       <!-- 电铺商品（折叠面板） -->
-      <th:block th:if="${afdianCfg.showProducts != null && afdianCfg.showProducts}">
+      <th:block th:if="${afdianPlusFinder != null && afdianCfg.showProducts != null && afdianCfg.showProducts}">
         <button class="afdian-toggle-btn" data-afdian-toggle="afdian-products-panel" onclick="toggleAfdianPanel('afdian-products-panel')">
           <span class="afdian-section-title">电铺商品</span>
           <svg class="afdian-toggle-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
@@ -282,8 +296,9 @@
             </div>
           </div>
           <div th:if="${productData == null || productData.data == null || productData.data.list == null || productData.data.list.isEmpty()}" class="afdian-empty">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-            <p>暂无电铺商品</p>
+            <svg viewBox="0 0 1024 1024" fill="currentColor" width="48" height="48"><path d="M554.666667 341.333333v128h85.333333l-128 213.333334V554.666667h-85.333333l128-213.333334z m384 170.666667c0 234.666667-192 426.666667-426.666667 426.666667S85.333333 746.666667 85.333333 512 277.333333 85.333333 512 85.333333v128c-166.4 0-298.666667 132.266667-298.666667 298.666667s132.266667 298.666667 298.666667 298.666667 298.666667-132.266667 298.666667-298.666667h128z m-46.933334 42.666667h-42.666666c-21.333333 166.4-166.4 298.666667-337.066667 298.666666-187.733333 0-341.333333-153.6-341.333333-341.333333C170.666667 337.066667 302.933333 196.266667 469.333333 174.933333v-42.666666C277.333333 153.6 128 315.733333 128 512c0 213.333333 170.666667 384 384 384 196.266667 0 358.4-149.333333 379.733333-341.333333z m-89.6-106.666667l123.733334-29.866667C891.733333 256 763.733333 128 601.6 93.866667l-29.866667 123.733333c119.466667 29.866667 204.8 115.2 230.4 230.4z"/></svg>
+            <p th:if="${!afdianLicensed}">需要开启插件高级功能</p>
+            <p th:if="${afdianLicensed}">暂无电铺商品</p>
           </div>
         </div>
       </th:block>
@@ -299,7 +314,7 @@
     <div th:if="${theme.config.about != null && theme.config.about.afdianSettings != null && theme.config.about.afdianSettings.showAfdian}" id="afdian-modal" class="afdian-modal-overlay" onclick="if(event.target===this)closeAfdianModal()">
       <div class="afdian-modal">
         <div class="afdian-modal-header">
-          <span class="afdian-modal-title">订单详情</span>
+          <span class="afdian-modal-title">赞助详情</span>
           <button class="afdian-modal-close" onclick="closeAfdianModal()">×</button>
         </div>
         <div class="afdian-modal-body">
@@ -318,12 +333,11 @@
               <div class="afdian-month-opt" data-month="12" onclick="selectAfdianMonth(12)">12 个月</div>
             </div>
           </div>
-          <div class="afdian-modal-field">
-            <div class="afdian-modal-label">留言 / 备注（可选）</div>
-            <textarea class="afdian-modal-remark" rows="2" placeholder="给创作者留言..."></textarea>
-          </div>
         </div>
         <div class="afdian-modal-footer">
+          <div class="afdian-verify-section" style="display:none">
+            <button class="afdian-verify-btn" onclick="verifyAfdianPayment()">我已付款，验证支付</button>
+          </div>
           <button class="afdian-modal-btn" onclick="closeAfdianModal()">取消</button>
           <button class="afdian-modal-btn afdian-modal-btn-primary" onclick="confirmAfdianOrder()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -372,8 +386,8 @@
     </div>
   </div>
 
-  <script th:if="${theme.config.about != null && theme.config.about.showForeverBlog}" th:inline="javascript">
-    window.FOREVER_BLOG_START_DATE = /*[[${theme.config.about.foreverBlogStartDate ?: '2024-01-01'}]]*/ '2024-01-01';
+  <script th:if="${theme.config.about != null && theme.config.about.foreverBlogConfig != null && theme.config.about.foreverBlogConfig.showForeverBlog}" th:inline="javascript">
+    window.FOREVER_BLOG_START_DATE = /*[[${theme.config.about.foreverBlogConfig.foreverBlogStartDate ?: '2024-01-01'}]]*/ '2024-01-01';
   </script>
 </th:block>
 </html>

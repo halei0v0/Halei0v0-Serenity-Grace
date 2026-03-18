@@ -4,9 +4,9 @@
 <th:block th:fragment="head">
   <link rel="stylesheet" th:href="@{/assets/css/moments.css}" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" th:content="${(singlePage != null ? singlePage.spec.title : '碎碎念') + ' - ' + (theme.config.basic.title ?: site.title)}" />
+  <meta property="og:title" th:content="${(singlePage != null ? singlePage.spec.title : '碎碎念') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
   <meta property="og:description" content="记录生活中的点滴，留住那些值得回忆的瞬间" />
-  <meta name="twitter:title" th:content="${(singlePage != null ? singlePage.spec.title : '碎碎念') + ' - ' + (theme.config.basic.title ?: site.title)}" />
+  <meta name="twitter:title" th:content="${(singlePage != null ? singlePage.spec.title : '碎碎念') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
   <meta name="twitter:description" content="记录生活中的点滴，留住那些值得回忆的瞬间" />
   <script th:src="@{/assets/js/lightbox.js}" defer></script>
 </th:block>
@@ -16,8 +16,8 @@
       <section class="moments-page" th:with="momentsResult = ${momentFinder != null ? momentFinder.list(1, 50) : null}">
         
         <div class="moments-header" data-aos="fade-up">
-          <h1 class="moments-title" th:text="${theme.config.watermark?.moments?.title ?: (singlePage != null ? singlePage.spec.title : '碎碎念')}">碎碎念</h1>
-          <p class="moments-subtitle" th:text="${theme.config.watermark?.moments?.subtitle ?: '记录生活中的点滴，留住那些值得回忆的瞬间'}">记录生活中的点滴，留住那些值得回忆的瞬间</p>
+          <h1 class="moments-title" th:text="${(theme.config.watermark?.moments?.enabled == true ? theme.config.watermark.moments.title : null) ?: (singlePage != null ? singlePage.spec.title : '碎碎念')}">碎碎念</h1>
+          <p class="moments-subtitle" th:text="${(theme.config.watermark?.moments?.enabled == true ? theme.config.watermark.moments.subtitle : null) ?: '记录生活中的点滴，留住那些值得回忆的瞬间'}">记录生活中的点滴，留住那些值得回忆的瞬间</p>
           <div class="moments-stats" th:if="${momentsResult != null}">
             <div class="moments-stat">
               <span class="moments-stat-num" th:text="${momentsResult.total}">0</span>
@@ -45,14 +45,14 @@
                      th:with="content = ${moment.spec.content}">
                   <!-- 头像 -->
                   <img class="moment-avatar" 
-                       th:src="${moment.owner != null && moment.owner.avatar != null ? moment.owner.avatar : (theme.config.hero.avatar ?: '/themes/theme-Serenity/assets/public/ics6.webp')}" 
+                       th:src="${moment.owner != null && moment.owner.avatar != null ? moment.owner.avatar : (site.logo ?: '/themes/theme-Serenity/assets/public/ics6.webp')}" 
                        alt="avatar" />
                   
                   <!-- 气泡 -->
                   <div class="moment-bubble">
                     <!-- 头部：作者和时间 -->
                     <div class="moment-bubble-header">
-                      <span class="moment-author" th:text="${moment.owner != null && moment.owner.displayName != null ? moment.owner.displayName : theme.config.basic.author}">作者</span>
+                      <span class="moment-author" th:text="${moment.owner != null && moment.owner.displayName != null ? moment.owner.displayName : theme.config.basic.siteInfo.author}">作者</span>
                       <span class="moment-time" th:text="${moment.spec.releaseTime != null ? #temporals.format(moment.spec.releaseTime, 'yyyy-MM-dd HH:mm:ss') : ''}">时间</span>
                     </div>
                     

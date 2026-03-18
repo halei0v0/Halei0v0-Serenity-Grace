@@ -5,8 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2" />
     <title th:text="${title}"></title>
-    
-    <link rel="icon" th:href="${theme.config.basic.favicon != null && !#strings.isEmpty(theme.config.basic.favicon) ? theme.config.basic.favicon : (site.favicon != null && !#strings.isEmpty(site.favicon) ? site.favicon : '/themes/theme-Serenity/assets/public/ics6.webp')}" />
+    <link rel="icon" th:href="${site.favicon}" />
     
     <th:block th:replace="~{gateway_fragments/common::basicStaticResources}"></th:block>
     

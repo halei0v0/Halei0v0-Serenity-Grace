@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="https://www.thymeleaf.org" 
-     th:attr="data-welcome-enabled=${theme.config.welcome != null and theme.config.welcome.enabled != null and !theme.config.welcome.enabled ? 'false' : 'true'}"
+     th:attr="data-welcome-enabled=${theme.config.welcome != null and theme.config.welcome.welcomeConfig != null and theme.config.welcome.welcomeConfig.enabled != null and !theme.config.welcome.welcomeConfig.enabled ? 'false' : 'true'}"
      th:fragment="html(title, content, head)">
 <head>
   <meta name="default-theme" th:content="${theme.config.basic.defaultTheme ?: 'dark'}" />
@@ -42,34 +42,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="generator" content="Halo" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-  <title th:text="${title != null ? title + ' - ' + (theme.config.basic.title ?: site.title) : (theme.config.basic.title ?: site.title)}">Serenity-Grace</title>
-  <meta name="description" th:content="${theme.config.basic.description ?: site.subtitle}" />
+  <title th:text="${title != null ? title + ' - ' + (theme.config.basic.siteInfo.title ?: site.title) : (theme.config.basic.siteInfo.title ?: site.title)}">Serenity-Grace</title>
+  <meta name="description" th:content="${theme.config.basic.siteInfo.description ?: site.subtitle}" />
   
-  <meta th:if="${theme.config.seo != null && theme.config.seo.keywords != null && !#strings.isEmpty(theme.config.seo.keywords)}" 
+  <meta th:if="${theme.config.seo != null && theme.config.seo.seoConfig != null && theme.config.seo.seoConfig.keywords != null && !#strings.isEmpty(theme.config.seo.seoConfig.keywords)}" 
         name="keywords" 
-        th:content="${theme.config.seo.keywords}" />
+        th:content="${theme.config.seo.seoConfig.keywords}" />
   
-  <meta th:if="${theme.config.seo != null && theme.config.seo.baiduSiteVerification != null && !#strings.isEmpty(theme.config.seo.baiduSiteVerification)}" 
+  <meta th:if="${theme.config.seo != null && theme.config.seo.seoConfig != null && theme.config.seo.seoConfig.baiduSiteVerification != null && !#strings.isEmpty(theme.config.seo.seoConfig.baiduSiteVerification)}" 
         name="baidu-site-verification" 
-        th:content="${theme.config.seo.baiduSiteVerification}" />
+        th:content="${theme.config.seo.seoConfig.baiduSiteVerification}" />
   
-  <meta th:if="${theme.config.seo != null && theme.config.seo.googleSiteVerification != null && !#strings.isEmpty(theme.config.seo.googleSiteVerification)}" 
+  <meta th:if="${theme.config.seo != null && theme.config.seo.seoConfig != null && theme.config.seo.seoConfig.googleSiteVerification != null && !#strings.isEmpty(theme.config.seo.seoConfig.googleSiteVerification)}" 
         name="google-site-verification" 
-        th:content="${theme.config.seo.googleSiteVerification}" />
+        th:content="${theme.config.seo.seoConfig.googleSiteVerification}" />
   
-  <link rel="icon" th:href="${theme.config.basic.favicon != null && !#strings.isEmpty(theme.config.basic.favicon) ? theme.config.basic.favicon : (site.favicon != null && !#strings.isEmpty(site.favicon) ? site.favicon : '/themes/theme-Serenity/assets/public/ics6.webp')}" />
 
-  <meta property="og:site_name" th:content="${theme.config.basic.title ?: site.title}" />
+  <meta property="og:site_name" th:content="${theme.config.basic.siteInfo.title ?: site.title}" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" th:content="${title != null ? title + ' - ' + (theme.config.basic.title ?: site.title) : (theme.config.basic.title ?: site.title)}" />
-  <meta property="og:description" th:content="${theme.config.basic.description ?: site.subtitle}" />
-  <meta property="og:image" th:content="${theme.config.basic.logo != null && !#strings.isEmpty(theme.config.basic.logo) ? theme.config.basic.logo : (theme.config.hero.avatar != null && !#strings.isEmpty(theme.config.hero.avatar) ? theme.config.hero.avatar : '/themes/theme-Serenity/assets/public/ics6.webp')}" />
+  <meta property="og:title" th:content="${title != null ? title + ' - ' + (theme.config.basic.siteInfo.title ?: site.title) : (theme.config.basic.siteInfo.title ?: site.title)}" />
+  <meta property="og:description" th:content="${theme.config.basic.siteInfo.description ?: site.subtitle}" />
+  <meta property="og:image" th:content="${site.logo != null && !#strings.isEmpty(site.logo) ? site.logo : '/themes/theme-Serenity/assets/public/ics6.webp'}" />
   <meta property="og:locale" content="zh_CN" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" th:content="${title != null ? title + ' - ' + (theme.config.basic.title ?: site.title) : (theme.config.basic.title ?: site.title)}" />
-  <meta name="twitter:description" th:content="${theme.config.basic.description ?: site.subtitle}" />
-  <meta name="twitter:image" th:content="${theme.config.basic.logo != null && !#strings.isEmpty(theme.config.basic.logo) ? theme.config.basic.logo : (theme.config.hero.avatar != null && !#strings.isEmpty(theme.config.hero.avatar) ? theme.config.hero.avatar : '/themes/theme-Serenity/assets/public/ics6.webp')}" />
+  <meta name="twitter:title" th:content="${title != null ? title + ' - ' + (theme.config.basic.siteInfo.title ?: site.title) : (theme.config.basic.siteInfo.title ?: site.title)}" />
+  <meta name="twitter:description" th:content="${theme.config.basic.siteInfo.description ?: site.subtitle}" />
+  <meta name="twitter:image" th:content="${site.logo != null && !#strings.isEmpty(site.logo) ? site.logo : '/themes/theme-Serenity/assets/public/ics6.webp'}" />
 
   
   <link rel="stylesheet" th:href="@{/assets/fonts/qweather-icons.css}" media="print" onload="this.media='all'" />
@@ -96,30 +95,28 @@
   <link rel="stylesheet" th:href="@{/assets/css/base.css}" />
 
 
-  <link rel="stylesheet" th:if="${theme.config.welcome == null || theme.config.welcome.enabled == null || theme.config.welcome.enabled}" th:href="@{/assets/css/welcome.css}" />
+  <link rel="stylesheet" th:if="${theme.config.welcome == null || theme.config.welcome.welcomeConfig == null || theme.config.welcome.welcomeConfig.enabled == null || theme.config.welcome.welcomeConfig.enabled}" th:href="@{/assets/css/welcome.css}" />
   
   <th:block th:replace="${head}" />
   
-  <th:block th:utext="${theme.config.basic.customHead}" />
-  
-  <script th:if="${theme.config.seo != null && (theme.config.seo.enableJsonLd == null || theme.config.seo.enableJsonLd)}" type="application/ld+json" th:inline="javascript">
+  <script th:if="${theme.config.seo != null && theme.config.seo.seoConfig != null && (theme.config.seo.seoConfig.enableJsonLd == null || theme.config.seo.seoConfig.enableJsonLd)}" type="application/ld+json" th:inline="javascript">
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": /*[[${theme.config.basic.title ?: site.title}]]*/ "Serenity's Blog",
+    "name": /*[[${theme.config.basic.siteInfo.title ?: site.title}]]*/ "Serenity's Blog",
     "url": /*[[${site.url}]]*/ "",
-    "description": /*[[${theme.config.basic.description ?: site.subtitle}]]*/ "",
-    "image": /*[[${theme.config.basic.logo != null && !#strings.isEmpty(theme.config.basic.logo) ? theme.config.basic.logo : (theme.config.hero.avatar != null && !#strings.isEmpty(theme.config.hero.avatar) ? theme.config.hero.avatar : '/themes/theme-Serenity/assets/public/ics6.webp')}]]*/ "",
+    "description": /*[[${theme.config.basic.siteInfo.description ?: site.subtitle}]]*/ "",
+    "image": /*[[${site.logo != null && !#strings.isEmpty(site.logo) ? site.logo : '/themes/theme-Serenity/assets/public/ics6.webp'}]]*/ "",
     "author": {
       "@type": "Person",
-      "name": /*[[${theme.config.basic.author ?: (theme.config.basic.title ?: site.title)}]]*/ "Serenity"
+      "name": /*[[${theme.config.basic.siteInfo.author ?: (theme.config.basic.siteInfo.title ?: site.title)}]]*/ "Serenity"
     },
     "publisher": {
       "@type": "Organization",
-      "name": /*[[${theme.config.basic.title ?: site.title}]]*/ "Serenity's Blog",
+      "name": /*[[${theme.config.basic.siteInfo.title ?: site.title}]]*/ "Serenity's Blog",
       "logo": {
         "@type": "ImageObject",
-        "url": /*[[${theme.config.basic.logo != null && !#strings.isEmpty(theme.config.basic.logo) ? theme.config.basic.logo : (theme.config.hero.avatar != null && !#strings.isEmpty(theme.config.hero.avatar) ? theme.config.hero.avatar : '/themes/theme-Serenity/assets/public/ics6.webp')}]]*/ ""
+        "url": /*[[${site.logo != null && !#strings.isEmpty(site.logo) ? site.logo : '/themes/theme-Serenity/assets/public/ics6.webp'}]]*/ ""
       }
     },
     "potentialAction": {
@@ -134,7 +131,7 @@
   </script>
 </head>
 <body>
-  <div class="welcome-overlay" id="welcomeOverlay" th:if="${theme.config.welcome == null || theme.config.welcome.enabled == null || theme.config.welcome.enabled}">
+  <div class="welcome-overlay" id="welcomeOverlay" th:if="${theme.config.welcome == null || theme.config.welcome.welcomeConfig == null || theme.config.welcome.welcomeConfig.enabled == null || theme.config.welcome.welcomeConfig.enabled}">
     <button class="welcome-theme-toggle" id="welcomeThemeToggle" title="切换主题" aria-label="切换主题">
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="12" cy="12" r="5"/>
@@ -154,22 +151,22 @@
     
     <div class="welcome-content">
       <div class="welcome-logo-wrapper">
-        <img th:src="${theme.config.hero.avatar ?: '/themes/theme-Serenity/assets/public/ics6.webp'}" 
+        <img th:src="${site.logo ?: '/themes/theme-Serenity/assets/public/ics6.webp'}" 
              alt="Logo" 
              class="welcome-logo" />
         <div class="welcome-logo-ring"></div>
         <div class="welcome-logo-ring welcome-logo-ring-2"></div>
       </div>
-      <h1 class="welcome-title" th:text="${theme.config.hero.name ?: site.title}"
-          th:style="${theme.config.hero.nameColor != null and !#strings.isEmpty(theme.config.hero.nameColor) ? 'background:' + theme.config.hero.nameColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : ''}">Serenity</h1>
-      <p class="welcome-tagline" th:text="${theme.config.hero.tagline ?: '热爱可抵岁月漫长'}"
-         th:style="${theme.config.hero.taglineColor != null and !#strings.isEmpty(theme.config.hero.taglineColor) ? (#strings.contains(theme.config.hero.taglineColor, 'gradient') ? 'background:' + theme.config.hero.taglineColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : 'color:' + theme.config.hero.taglineColor) : ''}">热爱可抵岁月漫长</p>
-      <p class="welcome-bio" th:text="${theme.config.hero.bio ?: '专注于前端开发，热爱开源，喜欢分享技术与生活。'}"
-         th:style="${theme.config.hero.bioColor != null and !#strings.isEmpty(theme.config.hero.bioColor) ? (#strings.contains(theme.config.hero.bioColor, 'gradient') ? 'background:' + theme.config.hero.bioColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : 'color:' + theme.config.hero.bioColor) : ''}">专注于前端开发，热爱开源，喜欢分享技术与生活。</p>
+      <h1 class="welcome-title" th:text="${theme.config.hero.profileInfo.name ?: site.title}"
+          th:style="${theme.config.hero.colorConfig.nameColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.nameColor) ? 'background:' + theme.config.hero.colorConfig.nameColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : ''}">Serenity</h1>
+      <p class="welcome-tagline" th:text="${theme.config.hero.profileInfo.tagline ?: '热爱可抵岁月漫长'}"
+         th:style="${theme.config.hero.colorConfig.taglineColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.taglineColor) ? (#strings.contains(theme.config.hero.colorConfig.taglineColor, 'gradient') ? 'background:' + theme.config.hero.colorConfig.taglineColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : 'color:' + theme.config.hero.colorConfig.taglineColor) : ''}">热爱可抵岁月漫长</p>
+      <p class="welcome-bio" th:text="${theme.config.hero.profileInfo.bio ?: '专注于前端开发，热爱开源，喜欢分享技术与生活。'}"
+         th:style="${theme.config.hero.colorConfig.bioColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.bioColor) ? (#strings.contains(theme.config.hero.colorConfig.bioColor, 'gradient') ? 'background:' + theme.config.hero.colorConfig.bioColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : 'color:' + theme.config.hero.colorConfig.bioColor) : ''}">专注于前端开发，热爱开源，喜欢分享技术与生活。</p>
       <div class="welcome-particles" id="welcomeParticles"></div>
     </div>
 
-    <div class="welcome-mascot-wrapper" th:if="${theme.config.welcome == null || theme.config.welcome.showMascot == null || theme.config.welcome.showMascot}">
+    <div class="welcome-mascot-wrapper" th:if="${theme.config.welcome == null || theme.config.welcome.welcomeConfig == null || theme.config.welcome.welcomeConfig.showMascot == null || theme.config.welcome.welcomeConfig.showMascot}">
       <div class="welcome-mascot-bubble" id="welcomeMascotBubble">
         <span class="bubble-text">点击任意处进入哦~</span>
         <div class="bubble-tail"></div>
@@ -177,14 +174,14 @@
       <div class="welcome-mascot-row">
         <div class="welcome-mascot" id="welcomeMascot">
 
-          <img th:src="${theme.config.welcome != null && theme.config.welcome.mascotDark != null && !#strings.isEmpty(theme.config.welcome.mascotDark) ? theme.config.welcome.mascotDark : '/themes/theme-Serenity/assets/images/welcome/babara.gif'}" 
+          <img th:src="${theme.config.welcome != null && theme.config.welcome.welcomeConfig != null && theme.config.welcome.welcomeConfig.mascotDark != null && !#strings.isEmpty(theme.config.welcome.welcomeConfig.mascotDark) ? theme.config.welcome.welcomeConfig.mascotDark : '/themes/theme-Serenity/assets/images/welcome/babara.gif'}" 
                alt="" class="welcome-mascot-img welcome-mascot-dark" />
 
-          <img th:src="${theme.config.welcome != null && theme.config.welcome.mascotLight != null && !#strings.isEmpty(theme.config.welcome.mascotLight) ? theme.config.welcome.mascotLight : '/themes/theme-Serenity/assets/images/welcome/kirara.gif'}" 
+          <img th:src="${theme.config.welcome != null && theme.config.welcome.welcomeConfig != null && theme.config.welcome.welcomeConfig.mascotLight != null && !#strings.isEmpty(theme.config.welcome.welcomeConfig.mascotLight) ? theme.config.welcome.welcomeConfig.mascotLight : '/themes/theme-Serenity/assets/images/welcome/kirara.gif'}" 
                alt="" class="welcome-mascot-img welcome-mascot-light" />
         </div>
-        <a th:if="${theme.config.welcome == null || theme.config.welcome.mascotCredit == null || !#strings.isEmpty(theme.config.welcome.mascotCredit)}"
-           th:href="${theme.config.welcome != null && theme.config.welcome.mascotCredit != null ? theme.config.welcome.mascotCredit : 'https://x.com/Seseren_kr'}" 
+        <a th:if="${theme.config.welcome == null || theme.config.welcome.welcomeConfig == null || theme.config.welcome.welcomeConfig.mascotCredit == null || !#strings.isEmpty(theme.config.welcome.welcomeConfig.mascotCredit)}"
+           th:href="${theme.config.welcome != null && theme.config.welcome.welcomeConfig != null && theme.config.welcome.welcomeConfig.mascotCredit != null ? theme.config.welcome.welcomeConfig.mascotCredit : 'https://x.com/Seseren_kr'}" 
            target="_blank" rel="noopener" class="welcome-mascot-credit" title="GIF Source" aria-label="GIF 来源">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </a>
@@ -192,8 +189,8 @@
     </div>
   </div>
 
-  <script th:if="${theme.config.welcome != null and theme.config.welcome.sayings != null and !#strings.isEmpty(theme.config.welcome.sayings)}" th:inline="javascript">
-    window.WELCOME_SAYINGS = /*[[${theme.config.welcome.sayings}]]*/ '';
+  <script th:if="${theme.config.welcome != null and theme.config.welcome.welcomeConfig != null and theme.config.welcome.welcomeConfig.sayings != null and !#strings.isEmpty(theme.config.welcome.welcomeConfig.sayings)}" th:inline="javascript">
+    window.WELCOME_SAYINGS = /*[[${theme.config.welcome.welcomeConfig.sayings}]]*/ '';
     window.WELCOME_SAYINGS = window.WELCOME_SAYINGS.split('\n').filter(function(s) { return s.trim(); });
   </script>
 
@@ -214,17 +211,17 @@
 
   <th:block th:replace="~{modules/footer}"></th:block>
 
-  <th:block th:if="${theme.config.music != null && theme.config.music.enabled && ((!#strings.isEmpty(theme.config.music.playlistId)) || (!#strings.isEmpty(theme.config.music.metingApi)))}">
+  <th:block th:if="${theme.config.music != null && theme.config.music.musicConfig != null && theme.config.music.musicConfig.enabled && ((!#strings.isEmpty(theme.config.music.musicConfig.playlistId)) || (!#strings.isEmpty(theme.config.music.musicConfig.metingApi)))}">
   <link rel="stylesheet" th:href="@{/assets/css/APlayer.min.css}" />
   <link rel="stylesheet" th:href="@{/assets/css/music-panel.css}" />
   <div id="nav-music" 
-       th:attr="data-autoplay=${theme.config.music.autoPlay != null && theme.config.music.autoPlay ? 'true' : 'false'},
-                data-meting-api=${theme.config.music.metingApi},
-                data-playlist-id=${theme.config.music.playlistId}">
+       th:attr="data-autoplay=${theme.config.music.musicConfig.autoPlay != null && theme.config.music.musicConfig.autoPlay ? 'true' : 'false'},
+                data-meting-api=${theme.config.music.musicConfig.metingApi},
+                data-playlist-id=${theme.config.music.musicConfig.playlistId}">
     <a id="nav-music-hoverTips" class="nav-music-tips">播放音乐</a>
     <meting-js
-      th:if="${!#strings.isEmpty(theme.config.music.metingApi)}"
-      th:attr="api=${theme.config.music.metingApi}"
+      th:if="${!#strings.isEmpty(theme.config.music.musicConfig.metingApi)}"
+      th:attr="api=${theme.config.music.musicConfig.metingApi}"
       type="playlist"
       mutex="true"
       preload="auto"
@@ -232,8 +229,8 @@
       order="random">
     </meting-js>
     <meting-js
-      th:if="${#strings.isEmpty(theme.config.music.metingApi)}"
-      th:id="${theme.config.music.playlistId}"
+      th:if="${#strings.isEmpty(theme.config.music.musicConfig.metingApi)}"
+      th:id="${theme.config.music.musicConfig.playlistId}"
       server="netease"
       type="playlist"
       mutex="true"
@@ -352,9 +349,7 @@
   <script th:src="@{/assets/js/sidebar-sticky.js}" defer></script>
   
   <!-- 欢迎页控制脚本（全局） -->
-  <script th:if="${theme.config.welcome == null || theme.config.welcome.enabled == null || theme.config.welcome.enabled}" th:src="@{/assets/js/welcome.js}" defer></script>
-  
-  <th:block th:utext="${theme.config.basic.customScript}" />
+  <script th:if="${theme.config.welcome == null || theme.config.welcome.welcomeConfig == null || theme.config.welcome.welcomeConfig.enabled == null || theme.config.welcome.welcomeConfig.enabled}" th:src="@{/assets/js/welcome.js}" defer></script>
   
   <!-- 音乐播放器控制 -->
   <script th:src="@{/assets/js/music-panel.js}" defer></script>

@@ -5,12 +5,12 @@
   <link rel="stylesheet" th:href="@{/assets/css/archives.css}" />
   <link rel="canonical" th:href="${site.url + tag.status.permalink}" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" th:content="${tag.spec.displayName + ' - ' + (theme.config.basic.title ?: site.title)}" />
+  <meta property="og:title" th:content="${tag.spec.displayName + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
   <meta property="og:description" th:content="${'标签「' + tag.spec.displayName + '」下的所有文章'}" />
   <meta property="og:url" th:content="${site.url + tag.status.permalink}" />
-  <meta name="twitter:title" th:content="${tag.spec.displayName + ' - ' + (theme.config.basic.title ?: site.title)}" />
+  <meta name="twitter:title" th:content="${tag.spec.displayName + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
   <meta name="twitter:description" th:content="${'标签「' + tag.spec.displayName + '」下的所有文章'}" />
-  <script th:if="${theme.config.seo != null && (theme.config.seo.enableJsonLd == null || theme.config.seo.enableJsonLd)}" type="application/ld+json" th:inline="javascript">
+  <script th:if="${theme.config.seo != null && theme.config.seo.seoConfig != null && (theme.config.seo.seoConfig.enableJsonLd == null || theme.config.seo.seoConfig.enableJsonLd)}" type="application/ld+json" th:inline="javascript">
   {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -19,7 +19,7 @@
     "url": /*[[${site.url + tag.status.permalink}]]*/ "",
     "isPartOf": {
       "@type": "WebSite",
-      "name": /*[[${theme.config.basic.title ?: site.title}]]*/ "",
+      "name": /*[[${theme.config.basic.siteInfo.title ?: site.title}]]*/ "",
       "url": /*[[${site.url}]]*/ ""
     }
   }

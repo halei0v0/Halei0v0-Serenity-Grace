@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{modules/layout :: html(title = ${theme.config.watermark?.archives?.title ?: '归档'}, content = ~{::content}, head = ~{::head})}">
+      th:replace="~{modules/layout :: html(title = ${(theme.config.watermark?.archives?.enabled == true ? theme.config.watermark.archives.title : null) ?: '归档'}, content = ~{::content}, head = ~{::head})}">
 <th:block th:fragment="head">
   <link rel="stylesheet" th:href="@{/assets/css/archives.css}" />
   <script th:src="@{/assets/js/archives.js}" defer></script>
   <meta property="og:type" content="website" />
-  <meta property="og:title" th:content="${(theme.config.watermark?.archives?.title ?: '归档') + ' - ' + (theme.config.basic.title ?: site.title)}" />
+  <meta property="og:title" th:content="${((theme.config.watermark?.archives?.enabled == true ? theme.config.watermark.archives.title : null) ?: '归档') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
   <meta property="og:description" th:content="${'全部文章归档列表'}" />
-  <meta name="twitter:title" th:content="${(theme.config.watermark?.archives?.title ?: '归档') + ' - ' + (theme.config.basic.title ?: site.title)}" />
+  <meta name="twitter:title" th:content="${((theme.config.watermark?.archives?.enabled == true ? theme.config.watermark.archives.title : null) ?: '归档') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
   <meta name="twitter:description" th:content="${'全部文章归档列表'}" />
 </th:block>
 <th:block th:fragment="content">
   <div class="container">
     <header class="page-header" data-aos="fade-up">
-      <h1 class="page-title" th:text="${theme.config.watermark?.archives?.title ?: '归档'}">归档</h1>
-      <p class="page-desc" th:text="${theme.config.watermark?.archives?.subtitle ?: '时光荏苒，文字留痕'}">时光荏苒，文字留痕</p>
+      <h1 class="page-title" th:text="${(theme.config.watermark?.archives?.enabled == true ? theme.config.watermark.archives.title : null) ?: '归档'}">归档</h1>
+      <p class="page-desc" th:text="${(theme.config.watermark?.archives?.enabled == true ? theme.config.watermark.archives.subtitle : null) ?: '时光荏苒，文字留痕'}">时光荏苒，文字留痕</p>
       <p class="page-desc" th:if="${archives.total}">共 <span th:text="${archives.total}">42</span> 篇文章</p>
       <p class="page-desc" th:unless="${archives.total}">共 42 篇文章</p>
     </header>
@@ -105,19 +105,19 @@
       </div>
 
       <aside class="archive-sidebar">
-        <div class="sidebar-widget" th:if="${theme.config.sidebar == null || theme.config.sidebar.showFortune == null || theme.config.sidebar.showFortune}">
+        <div class="sidebar-widget" th:if="${theme.config.sidebar == null || theme.config.sidebar.fortuneConfig == null || theme.config.sidebar.fortuneConfig.showFortune == null || theme.config.sidebar.fortuneConfig.showFortune}">
           <div class="widget-header">
             <svg class="widget-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
             <span class="widget-divider"></span>
             <span class="widget-title">一言</span>
           </div>
-          <div class="widget-hitokoto" id="hitokoto-widget" th:attr="data-api=${theme.config.sidebar != null && theme.config.sidebar.hitokotoApi != null && !#strings.isEmpty(theme.config.sidebar.hitokotoApi) ? theme.config.sidebar.hitokotoApi : 'https://v1.hitokoto.cn/?c=a&c=b&c=c&c=d&c=i&c=k'}">
+          <div class="widget-hitokoto" id="hitokoto-widget" th:attr="data-api=${theme.config.sidebar != null && theme.config.sidebar.fortuneConfig != null && theme.config.sidebar.fortuneConfig.hitokotoApi != null && !#strings.isEmpty(theme.config.sidebar.fortuneConfig.hitokotoApi) ? theme.config.sidebar.fortuneConfig.hitokotoApi : 'https://v1.hitokoto.cn/?c=a&c=b&c=c&c=d&c=i&c=k'}">
             <p class="hitokoto-text" id="hitokoto-text">热爱可抵岁月漫长</p>
             <p class="hitokoto-from" id="hitokoto-from"></p>
           </div>
         </div>
 
-        <div class="sidebar-widget" th:if="${theme.config.sidebar == null || theme.config.sidebar.showHotPosts == null || theme.config.sidebar.showHotPosts}" th:with="hotPostsCount = ${theme.config.sidebar != null && theme.config.sidebar.hotPostsCount != null ? theme.config.sidebar.hotPostsCount : 5}">
+        <div class="sidebar-widget" th:if="${theme.config.sidebar == null || theme.config.sidebar.hotPostsConfig == null || theme.config.sidebar.hotPostsConfig.showHotPosts == null || theme.config.sidebar.hotPostsConfig.showHotPosts}" th:with="hotPostsCount = ${theme.config.sidebar != null && theme.config.sidebar.hotPostsConfig != null && theme.config.sidebar.hotPostsConfig.hotPostsCount != null ? theme.config.sidebar.hotPostsConfig.hotPostsCount : 5}">
           <div class="widget-header">
             <svg class="widget-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
             <span class="widget-divider"></span>
@@ -135,7 +135,7 @@
           </ul>
         </div>
 
-        <div class="sidebar-widget" th:if="${theme.config.sidebar == null || theme.config.sidebar.showRecentComments == null || theme.config.sidebar.showRecentComments}" th:attr="data-comment-count=${theme.config.sidebar != null && theme.config.sidebar.recentCommentsCount != null ? theme.config.sidebar.recentCommentsCount : 3}">
+        <div class="sidebar-widget" th:if="${theme.config.sidebar == null || theme.config.sidebar.recentCommentsConfig == null || theme.config.sidebar.recentCommentsConfig.showRecentComments == null || theme.config.sidebar.recentCommentsConfig.showRecentComments}" th:attr="data-comment-count=${theme.config.sidebar != null && theme.config.sidebar.recentCommentsConfig != null && theme.config.sidebar.recentCommentsConfig.recentCommentsCount != null ? theme.config.sidebar.recentCommentsConfig.recentCommentsCount : 3}">
           <div class="widget-header">
             <svg class="widget-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
             <span class="widget-divider"></span>
@@ -146,7 +146,7 @@
           </div>
         </div>
 
-        <div class="sidebar-widget" th:if="${theme.config.sidebar == null || theme.config.sidebar.showTagCloud == null || theme.config.sidebar.showTagCloud}">
+        <div class="sidebar-widget" th:if="${theme.config.sidebar == null || theme.config.sidebar.tagCloudConfig == null || theme.config.sidebar.tagCloudConfig.showTagCloud == null || theme.config.sidebar.tagCloudConfig.showTagCloud}">
           <div class="widget-header">
             <svg class="widget-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
             <span class="widget-divider"></span>
