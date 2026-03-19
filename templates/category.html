@@ -5,12 +5,12 @@
   <link rel="stylesheet" th:href="@{/assets/css/archives.css}" />
   <link rel="canonical" th:href="${site.url + category.status.permalink}" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" th:content="${category.spec.displayName + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
+  <meta property="og:title" th:content="${category.spec.displayName + ' - ' + (theme.config.basic?.siteInfo?.title != null ? theme.config.basic.siteInfo.title : site.title)}" />
   <meta property="og:description" th:content="${category.spec.description != null && !#strings.isEmpty(category.spec.description) ? category.spec.description : ('分类「' + category.spec.displayName + '」下的所有文章')}" />
   <meta property="og:url" th:content="${site.url + category.status.permalink}" />
-  <meta name="twitter:title" th:content="${category.spec.displayName + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
+  <meta name="twitter:title" th:content="${category.spec.displayName + ' - ' + (theme.config.basic?.siteInfo?.title != null ? theme.config.basic.siteInfo.title : site.title)}" />
   <meta name="twitter:description" th:content="${category.spec.description != null && !#strings.isEmpty(category.spec.description) ? category.spec.description : ('分类「' + category.spec.displayName + '」下的所有文章')}" />
-  <script th:if="${theme.config.seo != null && theme.config.seo.seoConfig != null && (theme.config.seo.seoConfig.enableJsonLd == null || theme.config.seo.seoConfig.enableJsonLd)}" type="application/ld+json" th:inline="javascript">
+  <script th:if="${theme.config.seo?.seoConfig != null && (theme.config.seo.seoConfig.enableJsonLd == null || theme.config.seo.seoConfig.enableJsonLd)}" type="application/ld+json" th:inline="javascript">
   {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -19,7 +19,7 @@
     "url": /*[[${site.url + category.status.permalink}]]*/ "",
     "isPartOf": {
       "@type": "WebSite",
-      "name": /*[[${theme.config.basic.siteInfo.title ?: site.title}]]*/ "",
+      "name": /*[[${theme.config.basic?.siteInfo?.title != null ? theme.config.basic.siteInfo.title : site.title}]]*/ "",
       "url": /*[[${site.url}]]*/ ""
     }
   }
@@ -33,7 +33,7 @@
       <header class="page-header">
         <h1 class="page-title category-title">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;vertical-align:middle;margin-right:8px;color:var(--color-accent)" th:data-default-icon="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-          <th:block th:if="${theme.config.basic.categoryIcons}">
+          <th:block th:if="${theme.config.basic?.categoryIcons}">
             <th:block th:each="item : ${theme.config.basic.categoryIcons}">
               <i th:if="${item.slug == category.spec.slug and item.icon != null and item.icon != ''}"
                  th:class="${item.icon}"

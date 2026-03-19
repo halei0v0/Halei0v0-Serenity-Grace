@@ -8,7 +8,7 @@
         
         <script th:inline="javascript">
           (function() {
-            const defaultTheme = /*[[${theme.config.basic.defaultTheme ?: 'dark'}]]*/ 'dark';
+            const defaultTheme = /*[[${theme.config.basic?.defaultTheme ?: 'dark'}]]*/ 'dark';
             const scheme = localStorage.getItem('color-scheme') || defaultTheme;
             const normalizedScheme = (scheme === 'auto' || !scheme) ? 'dark' : scheme;
             document.documentElement.setAttribute('data-theme', normalizedScheme);
@@ -18,9 +18,9 @@
     
     <th:block th:fragment="body">
         <div class="sepo-gateway-background">
-          <div th:if="${theme.config.home == null || theme.config.home.backgroundConfig == null || theme.config.home.backgroundConfig.showHeroBackground == null || theme.config.home.backgroundConfig.showHeroBackground}" 
+          <div th:if="${theme.config.home?.backgroundConfig?.showHeroBackground == null || theme.config.home.backgroundConfig.showHeroBackground}" 
                class="sepo-gateway-wallpaper">
-            <th:block th:with="bgUrl = ${theme.config.home != null && theme.config.home.backgroundConfig != null && theme.config.home.backgroundConfig.heroBackground != null && !#strings.isEmpty(theme.config.home.backgroundConfig.heroBackground) ? theme.config.home.backgroundConfig.heroBackground : '/themes/theme-Serenity/assets/public/labixiaoxi.webp'}">
+            <th:block th:with="bgUrl = ${theme.config.home?.backgroundConfig?.heroBackground != null && !#strings.isEmpty(theme.config.home.backgroundConfig.heroBackground) ? theme.config.home.backgroundConfig.heroBackground : '/themes/theme-Serenity/assets/public/labixiaoxi.webp'}">
               <video th:if="${#strings.endsWith(#strings.toLowerCase(bgUrl), '.mp4') || #strings.endsWith(#strings.toLowerCase(bgUrl), '.webm')}" 
                      th:src="${bgUrl}" 
                      class="sepo-gateway-wallpaper-media"
@@ -69,7 +69,7 @@
                     <div class="sepo-gateway-footer-section">
                         <p>
                             Powered by <a href="https://halo.run" target="_blank" rel="noopener">Halo</a>
-                            <span th:if="${theme.config.basic.siteInfo.author}"> · Theme by <span th:text="${theme.config.basic.siteInfo.author}"></span></span>
+                            <span th:if="${theme.config.basic?.siteInfo?.author}"> · Theme by <span th:text="${theme.config.basic.siteInfo.author}"></span></span>
                         </p>
                     </div>
                 </div>

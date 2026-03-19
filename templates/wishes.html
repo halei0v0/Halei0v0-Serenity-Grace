@@ -4,7 +4,7 @@
 <th:block th:fragment="head">
   <link rel="stylesheet" th:href="@{/assets/css/wishes.css}" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" th:content="${(pageTitle ?: '便签墙') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
+  <meta property="og:title" th:content="${(pageTitle ?: '便签墙') + ' - ' + (theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title)}" />
   <meta property="og:description" th:content="${pageSubtitle ?: '写下你的心愿，留下你的故事'}" />
   <script th:if="${wishFinder != null}" th:inline="javascript">
     window.__WISH_CONFIG__ = {

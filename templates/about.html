@@ -5,19 +5,19 @@
   <link rel="stylesheet" th:href="@{/assets/css/about.css}" />
   <link th:if="${theme.config.about != null && theme.config.about.steamConfig != null && theme.config.about.steamConfig.showSteam}" rel="stylesheet" th:href="@{/assets/css/steam.css}" />
   <meta property="og:type" content="profile" />
-  <meta property="og:title" th:content="${(singlePage.spec.title ?: '关于') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
-  <meta property="og:description" th:content="${theme.config.basic.siteInfo.description ?: site.subtitle}" />
-  <meta property="profile:username" th:content="${theme.config.basic.siteInfo.author ?: site.title}" />
-  <meta name="twitter:title" th:content="${(singlePage.spec.title ?: '关于') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
-  <meta name="twitter:description" th:content="${theme.config.basic.siteInfo.description ?: site.subtitle}" />
+  <meta property="og:title" th:content="${(singlePage.spec.title ?: '关于') + ' - ' + (theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title)}" />
+  <meta property="og:description" th:content="${theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.description != null ? theme.config.basic.siteInfo.description : site.subtitle}" />
+  <meta property="profile:username" th:content="${theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.author != null ? theme.config.basic.siteInfo.author : site.title}" />
+  <meta name="twitter:title" th:content="${(singlePage.spec.title ?: '关于') + ' - ' + (theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title)}" />
+  <meta name="twitter:description" th:content="${theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.description != null ? theme.config.basic.siteInfo.description : site.subtitle}" />
   <script th:if="${theme.config.seo != null && theme.config.seo.seoConfig != null && (theme.config.seo.seoConfig.enableJsonLd == null || theme.config.seo.seoConfig.enableJsonLd)}" type="application/ld+json" th:inline="javascript">
   {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
     "mainEntity": {
       "@type": "Person",
-      "name": /*[[${theme.config.basic.siteInfo.author ?: site.title}]]*/ "",
-      "description": /*[[${theme.config.basic.siteInfo.description ?: site.subtitle}]]*/ "",
+      "name": /*[[${theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.author != null ? theme.config.basic.siteInfo.author : site.title}]]*/ "",
+      "description": /*[[${theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.description != null ? theme.config.basic.siteInfo.description : site.subtitle}]]*/ "",
       "image": /*[[${site.logo != null && !#strings.isEmpty(site.logo) ? site.logo : '/themes/theme-Serenity/assets/public/ics6.webp'}]]*/ "",
       "url": /*[[${site.url}]]*/ ""
     }
@@ -65,7 +65,7 @@
           </th:block>
         </div>
         <div class="about-hero-info" data-aos="fade-up" data-aos-delay="300">
-          <h1 class="about-name" th:text="${theme.config.basic.siteInfo.author ?: site.title}">Serenity</h1>
+          <h1 class="about-name" th:text="${theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.author != null ? theme.config.basic.siteInfo.author : site.title}">Serenity</h1>
           <p class="about-bio" th:text="${site.subtitle}">前端开发者 / 独立开发者 / 博主</p>
         </div>
       </div>
@@ -162,7 +162,8 @@
     </div>
 
     <!-- Steam 个人资料卡片 -->
-    <div th:if="${theme.config.about != null && theme.config.about.steamConfig != null && theme.config.about.steamConfig.showSteam}" class="about-card glass-card" data-aos="fade-up" data-aos-delay="350">
+    <div th:if="${theme.config.about != null && theme.config.about.steamConfig != null && theme.config.about.steamConfig.showSteam}" class="about-card glass-card" data-aos="fade-up" data-aos-delay="350"
+         th:attr="data-show-bans=${theme.config.about.steamConfig.showBans != null ? theme.config.about.steamConfig.showBans : true},data-show-stats=${theme.config.about.steamConfig.showStats != null ? theme.config.about.steamConfig.showStats : true},data-show-achievements=${theme.config.about.steamConfig.showAchievements != null ? theme.config.about.steamConfig.showAchievements : true},data-show-game-library=${theme.config.about.steamConfig.showGameLibrary != null ? theme.config.about.steamConfig.showGameLibrary : true},data-show-badges=${theme.config.about.steamConfig.showBadges != null ? theme.config.about.steamConfig.showBadges : true},data-show-friends=${theme.config.about.steamConfig.showFriends != null ? theme.config.about.steamConfig.showFriends : true}">
       <div class="card-decoration card-decoration-1"></div>
       <h2 class="about-section-title">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 12-5.373 12-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.454 1.012zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015z"/></svg>

@@ -5,7 +5,7 @@
   <link rel="stylesheet" th:href="@{/assets/css/post-page.css}" />
   <meta property="og:type" content="article" />
   <meta property="og:title" th:content="${singlePage.spec.title}" />
-  <meta property="og:description" th:content="${singlePage.status.excerpt ?: (theme.config.basic.siteInfo.description ?: site.subtitle)}" />
+  <meta property="og:description" th:content="${singlePage.status.excerpt ?: (theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.description != null ? theme.config.basic.siteInfo.description : site.subtitle)}" />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" th:content="${singlePage.spec.title}" />
 </th:block>

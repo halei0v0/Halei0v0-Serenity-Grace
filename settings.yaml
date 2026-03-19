@@ -1224,6 +1224,42 @@ spec:
               label: 显示 Steam 游戏
               value: false
               help: 是否在关于页面显示 Steam 个人资料卡片（需安装 plugin-steam 插件并在插件设置中配置 API Key 等信息）
+            - $formkit: switch
+              name: showBans
+              label: 显示封禁信息
+              value: true
+              if: $get(about_steam_enabled).value
+              help: 是否显示 VAC 封禁、游戏封禁、社区封禁、交易封禁等标签
+            - $formkit: switch
+              name: showStats
+              label: 显示统计数据
+              value: true
+              if: $get(about_steam_enabled).value
+              help: 是否显示游戏数、总时长、好友数、徽章数、XP 等统计
+            - $formkit: switch
+              name: showAchievements
+              label: 显示成就
+              value: true
+              if: $get(about_steam_enabled).value
+              help: 是否显示游戏成就进度和最近解锁成就
+            - $formkit: switch
+              name: showGameLibrary
+              label: 显示游戏库
+              value: true
+              if: $get(about_steam_enabled).value
+              help: 是否显示可折叠的游戏库列表
+            - $formkit: switch
+              name: showBadges
+              label: 显示徽章图标
+              value: true
+              if: $get(about_steam_enabled).value
+              help: 是否显示最近获得的徽章小图标
+            - $formkit: switch
+              name: showFriends
+              label: 显示好友数
+              value: true
+              if: $get(about_steam_enabled).value
+              help: 是否在统计区域显示好友数量
         - $formkit: group
           name: foreverBlogConfig
           label: 十年之约

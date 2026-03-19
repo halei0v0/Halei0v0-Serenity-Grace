@@ -12,7 +12,7 @@
         <script th:src="@{/assets/js/gateway-toast.js}" defer></script>
         <script th:src="@{/assets/js/signup.js}" defer></script>
         
-        <meta name="default-theme" th:content="${theme.config.basic.defaultTheme ?: 'dark'}" />
+        <meta name="default-theme" th:content="${theme.config.basic?.defaultTheme != null ? theme.config.basic.defaultTheme : 'dark'}" />
         <script>
           (function() {
             var meta = document.querySelector('meta[name="default-theme"]');
@@ -27,9 +27,9 @@
     
     <th:block th:fragment="body">
         <div class="sepo-gateway-background">
-          <div th:if="${theme.config.home == null || theme.config.home.backgroundConfig == null || theme.config.home.backgroundConfig.showHeroBackground == null || theme.config.home.backgroundConfig.showHeroBackground}" 
+          <div th:if="${theme.config.home?.backgroundConfig?.showHeroBackground == null || theme.config.home.backgroundConfig.showHeroBackground}" 
                class="sepo-gateway-wallpaper">
-            <th:block th:with="bgUrl = ${theme.config.home != null && theme.config.home.backgroundConfig != null && theme.config.home.backgroundConfig.heroBackground != null && !#strings.isEmpty(theme.config.home.backgroundConfig.heroBackground) ? theme.config.home.backgroundConfig.heroBackground : '/themes/theme-Serenity/assets/public/labixiaoxi.webp'}">
+            <th:block th:with="bgUrl = ${theme.config.home?.backgroundConfig?.heroBackground != null && !#strings.isEmpty(theme.config.home.backgroundConfig.heroBackground) ? theme.config.home.backgroundConfig.heroBackground : '/themes/theme-Serenity/assets/public/labixiaoxi.webp'}">
               <video th:if="${#strings.endsWith(#strings.toLowerCase(bgUrl), '.mp4') || #strings.endsWith(#strings.toLowerCase(bgUrl), '.webm')}" 
                      th:src="${bgUrl}" 
                      class="sepo-gateway-wallpaper-media"
@@ -46,9 +46,9 @@
         </div>
         
         <!-- 主题装饰图片 -->
-        <div class="theme-decor" th:if="${theme.config.home == null || theme.config.home.decorConfig == null || theme.config.home.decorConfig.showThemeDecor == null || theme.config.home.decorConfig.showThemeDecor}">
-          <img th:src="${theme.config.home != null && theme.config.home.decorConfig != null && theme.config.home.decorConfig.customDecorLight != null && !#strings.isEmpty(theme.config.home.decorConfig.customDecorLight) ? theme.config.home.decorConfig.customDecorLight : '/themes/theme-Serenity/assets/public/light.webp'}" alt="" class="theme-decor-light" />
-          <img th:src="${theme.config.home != null && theme.config.home.decorConfig != null && theme.config.home.decorConfig.customDecorDark != null && !#strings.isEmpty(theme.config.home.decorConfig.customDecorDark) ? theme.config.home.decorConfig.customDecorDark : '/themes/theme-Serenity/assets/public/dark.webp'}" alt="" class="theme-decor-dark" />
+        <div class="theme-decor" th:if="${theme.config.home?.decorConfig?.showThemeDecor == null || theme.config.home.decorConfig.showThemeDecor}">
+          <img th:src="${theme.config.home?.decorConfig?.customDecorLight != null && !#strings.isEmpty(theme.config.home.decorConfig.customDecorLight) ? theme.config.home.decorConfig.customDecorLight : '/themes/theme-Serenity/assets/public/light.webp'}" alt="" class="theme-decor-light" />
+          <img th:src="${theme.config.home?.decorConfig?.customDecorDark != null && !#strings.isEmpty(theme.config.home.decorConfig.customDecorDark) ? theme.config.home.decorConfig.customDecorDark : '/themes/theme-Serenity/assets/public/dark.webp'}" alt="" class="theme-decor-dark" />
         </div>
         
         <a href="/" class="sepo-gateway-back-button">
@@ -82,7 +82,7 @@
                 <div class="sepo-gateway-footer-outside">
                     <p>
                         Powered by <a href="https://halo.run" target="_blank" rel="noopener">Halo</a>
-                        <span th:if="${theme.config.basic.siteInfo.author}"> · Theme by <span th:text="${theme.config.basic.siteInfo.author}"></span></span>
+                        <span th:if="${theme.config.basic?.siteInfo?.author}"> · Theme by <span th:text="${theme.config.basic.siteInfo.author}"></span></span>
                     </p>
                 </div>
             </div>

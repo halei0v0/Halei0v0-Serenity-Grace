@@ -4,9 +4,9 @@
 <th:block th:fragment="head">
   <link rel="stylesheet" th:href="@{/assets/css/friends-circle.css}" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" th:content="${(singlePage.spec.title ?: '朋友圈') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
+  <meta property="og:title" th:content="${(singlePage.spec.title ?: '朋友圈') + ' - ' + (theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title)}" />
   <meta property="og:description" content="友链博客最新动态" />
-  <meta name="twitter:title" th:content="${(singlePage.spec.title ?: '朋友圈') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
+  <meta name="twitter:title" th:content="${(singlePage.spec.title ?: '朋友圈') + ' - ' + (theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title)}" />
   <meta name="twitter:description" content="友链博客最新动态" />
   <script th:src="@{/assets/js/friends-circle.js}" defer></script>
 </th:block>

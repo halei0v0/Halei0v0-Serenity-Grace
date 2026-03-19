@@ -4,9 +4,9 @@
 <th:block th:fragment="head">
   <link rel="stylesheet" th:href="@{/assets/css/moments.css}" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" th:content="${(singlePage != null ? singlePage.spec.title : '碎碎念') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
+  <meta property="og:title" th:content="${(singlePage != null ? singlePage.spec.title : '碎碎念') + ' - ' + (theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title)}" />
   <meta property="og:description" content="记录生活中的点滴，留住那些值得回忆的瞬间" />
-  <meta name="twitter:title" th:content="${(singlePage != null ? singlePage.spec.title : '碎碎念') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
+  <meta name="twitter:title" th:content="${(singlePage != null ? singlePage.spec.title : '碎碎念') + ' - ' + (theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title)}" />
   <meta name="twitter:description" content="记录生活中的点滴，留住那些值得回忆的瞬间" />
   <script th:src="@{/assets/js/lightbox.js}" defer></script>
 </th:block>
@@ -52,7 +52,7 @@
                   <div class="moment-bubble">
                     <!-- 头部：作者和时间 -->
                     <div class="moment-bubble-header">
-                      <span class="moment-author" th:text="${moment.owner != null && moment.owner.displayName != null ? moment.owner.displayName : theme.config.basic.siteInfo.author}">作者</span>
+                      <span class="moment-author" th:text="${moment.owner != null && moment.owner.displayName != null ? moment.owner.displayName : (theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.author != null ? theme.config.basic.siteInfo.author : site.title)}">作者</span>
                       <span class="moment-time" th:text="${moment.spec.releaseTime != null ? #temporals.format(moment.spec.releaseTime, 'yyyy-MM-dd HH:mm:ss') : ''}">时间</span>
                     </div>
                     

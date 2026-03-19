@@ -5,10 +5,10 @@
 	<th:block th:fragment="head">
 		<link rel="stylesheet" th:href="@{/assets/css/equipments.css}">
 		<meta property="og:type" content="website" />
-		<meta property="og:title" th:content="${((theme.config.watermark?.equipments?.enabled == true ? theme.config.watermark.equipments.title : null) ?: '装备') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
+		<meta property="og:title" th:content="${((theme.config.watermark?.equipments?.enabled == true ? theme.config.watermark.equipments.title : null) ?: '装备') + ' - ' + (theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title)}" />
 		<meta property="og:description" th:content="${(theme.config.watermark?.equipments?.enabled == true ? theme.config.watermark.equipments.subtitle : null) ?: '工欲善其事，必先利其器'}" />
 		<meta name="twitter:card" content="summary" />
-		<meta name="twitter:title" th:content="${((theme.config.watermark?.equipments?.enabled == true ? theme.config.watermark.equipments.title : null) ?: '装备') + ' - ' + (theme.config.basic.siteInfo.title ?: site.title)}" />
+		<meta name="twitter:title" th:content="${((theme.config.watermark?.equipments?.enabled == true ? theme.config.watermark.equipments.title : null) ?: '装备') + ' - ' + (theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title)}" />
 	</th:block>
 
 	<th:block th:fragment="content">

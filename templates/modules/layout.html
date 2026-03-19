@@ -3,7 +3,7 @@
      th:attr="data-welcome-enabled=${theme.config.welcome != null and theme.config.welcome.welcomeConfig != null and theme.config.welcome.welcomeConfig.enabled != null and !theme.config.welcome.welcomeConfig.enabled ? 'false' : 'true'}"
      th:fragment="html(title, content, head)">
 <head>
-  <meta name="default-theme" th:content="${theme.config.basic.defaultTheme ?: 'dark'}" />
+  <meta name="default-theme" th:content="${theme.config.basic != null and theme.config.basic.defaultTheme != null ? theme.config.basic.defaultTheme : 'dark'}" />
   <script>
     (function() {
       var meta = document.querySelector('meta[name="default-theme"]');
@@ -42,8 +42,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="generator" content="Halo" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-  <title th:text="${title != null ? title + ' - ' + (theme.config.basic.siteInfo.title ?: site.title) : (theme.config.basic.siteInfo.title ?: site.title)}">Serenity-Grace</title>
-  <meta name="description" th:content="${theme.config.basic.siteInfo.description ?: site.subtitle}" />
+  <title th:text="${title != null ? title + ' - ' + (theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title) : (theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title)}">Serenity-Grace</title>
+  <meta name="description" th:content="${theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.description != null ? theme.config.basic.siteInfo.description : site.subtitle}" />
   
   <meta th:if="${theme.config.seo != null && theme.config.seo.seoConfig != null && theme.config.seo.seoConfig.keywords != null && !#strings.isEmpty(theme.config.seo.seoConfig.keywords)}" 
         name="keywords" 
@@ -58,16 +58,16 @@
         th:content="${theme.config.seo.seoConfig.googleSiteVerification}" />
   
 
-  <meta property="og:site_name" th:content="${theme.config.basic.siteInfo.title ?: site.title}" />
+  <meta property="og:site_name" th:content="${theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title}" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" th:content="${title != null ? title + ' - ' + (theme.config.basic.siteInfo.title ?: site.title) : (theme.config.basic.siteInfo.title ?: site.title)}" />
-  <meta property="og:description" th:content="${theme.config.basic.siteInfo.description ?: site.subtitle}" />
+  <meta property="og:title" th:content="${title != null ? title + ' - ' + (theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title) : (theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title)}" />
+  <meta property="og:description" th:content="${theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.description != null ? theme.config.basic.siteInfo.description : site.subtitle}" />
   <meta property="og:image" th:content="${site.logo != null && !#strings.isEmpty(site.logo) ? site.logo : '/themes/theme-Serenity/assets/public/ics6.webp'}" />
   <meta property="og:locale" content="zh_CN" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" th:content="${title != null ? title + ' - ' + (theme.config.basic.siteInfo.title ?: site.title) : (theme.config.basic.siteInfo.title ?: site.title)}" />
-  <meta name="twitter:description" th:content="${theme.config.basic.siteInfo.description ?: site.subtitle}" />
+  <meta name="twitter:title" th:content="${title != null ? title + ' - ' + (theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title) : (theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title)}" />
+  <meta name="twitter:description" th:content="${theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.description != null ? theme.config.basic.siteInfo.description : site.subtitle}" />
   <meta name="twitter:image" th:content="${site.logo != null && !#strings.isEmpty(site.logo) ? site.logo : '/themes/theme-Serenity/assets/public/ics6.webp'}" />
 
   
@@ -103,17 +103,17 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": /*[[${theme.config.basic.siteInfo.title ?: site.title}]]*/ "Serenity's Blog",
+    "name": /*[[${theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title}]]*/ "Serenity's Blog",
     "url": /*[[${site.url}]]*/ "",
-    "description": /*[[${theme.config.basic.siteInfo.description ?: site.subtitle}]]*/ "",
+    "description": /*[[${theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.description != null ? theme.config.basic.siteInfo.description : site.subtitle}]]*/ "",
     "image": /*[[${site.logo != null && !#strings.isEmpty(site.logo) ? site.logo : '/themes/theme-Serenity/assets/public/ics6.webp'}]]*/ "",
     "author": {
       "@type": "Person",
-      "name": /*[[${theme.config.basic.siteInfo.author ?: (theme.config.basic.siteInfo.title ?: site.title)}]]*/ "Serenity"
+      "name": /*[[${theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.author != null ? theme.config.basic.siteInfo.author : (theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title)}]]*/ "Serenity"
     },
     "publisher": {
       "@type": "Organization",
-      "name": /*[[${theme.config.basic.siteInfo.title ?: site.title}]]*/ "Serenity's Blog",
+      "name": /*[[${theme.config.basic != null and theme.config.basic.siteInfo != null and theme.config.basic.siteInfo.title != null ? theme.config.basic.siteInfo.title : site.title}]]*/ "Serenity's Blog",
       "logo": {
         "@type": "ImageObject",
         "url": /*[[${site.logo != null && !#strings.isEmpty(site.logo) ? site.logo : '/themes/theme-Serenity/assets/public/ics6.webp'}]]*/ ""
@@ -157,12 +157,12 @@
         <div class="welcome-logo-ring"></div>
         <div class="welcome-logo-ring welcome-logo-ring-2"></div>
       </div>
-      <h1 class="welcome-title" th:text="${theme.config.hero.profileInfo.name ?: site.title}"
-          th:style="${theme.config.hero.colorConfig.nameColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.nameColor) ? 'background:' + theme.config.hero.colorConfig.nameColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : ''}">Serenity</h1>
-      <p class="welcome-tagline" th:text="${theme.config.hero.profileInfo.tagline ?: '热爱可抵岁月漫长'}"
-         th:style="${theme.config.hero.colorConfig.taglineColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.taglineColor) ? (#strings.contains(theme.config.hero.colorConfig.taglineColor, 'gradient') ? 'background:' + theme.config.hero.colorConfig.taglineColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : 'color:' + theme.config.hero.colorConfig.taglineColor) : ''}">热爱可抵岁月漫长</p>
-      <p class="welcome-bio" th:text="${theme.config.hero.profileInfo.bio ?: '专注于前端开发，热爱开源，喜欢分享技术与生活。'}"
-         th:style="${theme.config.hero.colorConfig.bioColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.bioColor) ? (#strings.contains(theme.config.hero.colorConfig.bioColor, 'gradient') ? 'background:' + theme.config.hero.colorConfig.bioColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : 'color:' + theme.config.hero.colorConfig.bioColor) : ''}">专注于前端开发，热爱开源，喜欢分享技术与生活。</p>
+      <h1 class="welcome-title" th:text="${theme.config.hero != null and theme.config.hero.profileInfo != null and theme.config.hero.profileInfo.name != null ? theme.config.hero.profileInfo.name : site.title}"
+          th:style="${theme.config.hero != null and theme.config.hero.colorConfig != null and theme.config.hero.colorConfig.nameColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.nameColor) ? 'background:' + theme.config.hero.colorConfig.nameColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : ''}">Serenity</h1>
+      <p class="welcome-tagline" th:text="${theme.config.hero != null and theme.config.hero.profileInfo != null and theme.config.hero.profileInfo.tagline != null ? theme.config.hero.profileInfo.tagline : '热爱可抵岁月漫长'}"
+         th:style="${theme.config.hero != null and theme.config.hero.colorConfig != null and theme.config.hero.colorConfig.taglineColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.taglineColor) ? (#strings.contains(theme.config.hero.colorConfig.taglineColor, 'gradient') ? 'background:' + theme.config.hero.colorConfig.taglineColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : 'color:' + theme.config.hero.colorConfig.taglineColor) : ''}">热爱可抵岁月漫长</p>
+      <p class="welcome-bio" th:text="${theme.config.hero != null and theme.config.hero.profileInfo != null and theme.config.hero.profileInfo.bio != null ? theme.config.hero.profileInfo.bio : '专注于前端开发，热爱开源，喜欢分享技术与生活。'}"
+         th:style="${theme.config.hero != null and theme.config.hero.colorConfig != null and theme.config.hero.colorConfig.bioColor != null and !#strings.isEmpty(theme.config.hero.colorConfig.bioColor) ? (#strings.contains(theme.config.hero.colorConfig.bioColor, 'gradient') ? 'background:' + theme.config.hero.colorConfig.bioColor + ';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent' : 'color:' + theme.config.hero.colorConfig.bioColor) : ''}">专注于前端开发，热爱开源，喜欢分享技术与生活。</p>
       <div class="welcome-particles" id="welcomeParticles"></div>
     </div>
 

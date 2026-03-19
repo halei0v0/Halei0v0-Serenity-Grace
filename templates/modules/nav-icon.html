@@ -2,7 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
 
 <th:block th:fragment="icon(href, item)"
-          th:with="bs=${theme.config.basic}, ni=${theme.config.basic.navIcons}, ac=${#annotations.getOrDefault(item, 'icon_code', '')}">
+          th:with="bs=${theme.config.basic}, ni=${theme.config.basic != null ? theme.config.basic.navIcons : null}, ac=${#annotations.getOrDefault(item, 'icon_code', '')}">
 
   <!-- 归档 -->
   <th:block th:if="${#strings.contains(href, '/archives')}">
