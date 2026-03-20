@@ -438,6 +438,22 @@ spec:
         - $formkit: group
           name: compassConfig
           label: 风向标设置
+          value:
+            enabled: true
+            title: "风向标"
+            subtitle: "快速导航到你想去的地方"
+            showArchives: true
+            showTags: true
+            showCategories: true
+            showAbout: true
+            showMoments: true
+            showLinks: true
+            showGuestbook: true
+            showProjects: true
+            showPhotos: true
+            showFriendsCircle: true
+            showWishes: true
+            showEquipments: true
           children:
             - $formkit: switch
               id: compass_enabled
@@ -522,6 +538,11 @@ spec:
         - $formkit: group
           name: backgroundConfig
           label: 背景壁纸设置
+          value:
+            showHeroBackground: true
+            heroBackground: ""
+            heroBackgroundApi: ""
+            heroBackgroundApiMobile: ""
           children:
             - $formkit: switch
               id: home_bg_enabled
@@ -549,6 +570,10 @@ spec:
         - $formkit: group
           name: decorConfig
           label: 主题装饰图片设置
+          value:
+            showThemeDecor: false
+            customDecorLight: ""
+            customDecorDark: ""
           children:
             - $formkit: switch
               id: home_decor_enabled
@@ -569,6 +594,9 @@ spec:
         - $formkit: group
           name: weatherConfig
           label: 天气时钟设置
+          value:
+            showWeatherClock: false
+            seniverseKey: ""
           children:
             - $formkit: switch
               id: home_weather_enabled
@@ -585,6 +613,8 @@ spec:
         - $formkit: group
           name: recentPostsConfig
           label: 近期笔记
+          value:
+            showRecentPosts: false
           children:
             - $formkit: switch
               id: home_recent_posts_enabled
@@ -595,6 +625,8 @@ spec:
         - $formkit: group
           name: activityConfig
           label: 站点动态
+          value:
+            showActivity: false
           children:
             - $formkit: switch
               id: home_activity_enabled
@@ -605,6 +637,8 @@ spec:
         - $formkit: group
           name: memoCardsConfig
           label: 随想碎片
+          value:
+            showMemoCards: false
           children:
             - $formkit: switch
               id: home_memo_cards_enabled
@@ -615,6 +649,8 @@ spec:
         - $formkit: group
           name: lifeMomentsConfig
           label: 生活回想
+          value:
+            showLifeMoments: false
           children:
             - $formkit: switch
               id: home_life_moments_enabled
@@ -662,6 +698,9 @@ spec:
         - $formkit: group
           name: relatedConfig
           label: 相关文章设置
+          value:
+            showRelated: true
+            relatedCount: 3
           children:
             - $formkit: switch
               id: post_related_enabled
@@ -681,6 +720,8 @@ spec:
         - $formkit: group
           name: scrollbarConfig
           label: 页面滚动条
+          value:
+            showScrollbar: false
           children:
             - $formkit: switch
               id: post_scrollbar_enabled
@@ -691,6 +732,8 @@ spec:
         - $formkit: group
           name: outdatedNoticeConfig
           label: 文章过期提示
+          value:
+            showOutdatedNotice: true
           children:
             - $formkit: switch
               id: post_outdated_enabled
@@ -701,6 +744,8 @@ spec:
         - $formkit: group
           name: headingIconsConfig
           label: 标题装饰图标
+          value:
+            showHeadingIcons: true
           children:
             - $formkit: switch
               id: post_heading_icons_enabled
@@ -711,6 +756,11 @@ spec:
         - $formkit: group
           name: backgroundConfig
           label: 背景壁纸设置
+          value:
+            enableBackground: false
+            backgroundApi: "https://api.elaina.cat/random"
+            backgroundApiMobile: "https://api.elaina.cat/random/mobile"
+            backgroundBlur: 3
           children:
             - $formkit: switch
               id: post_bg_enabled
@@ -742,6 +792,9 @@ spec:
         - $formkit: group
           name: copyrightConfig
           label: 版权信息设置
+          value:
+            showCopyright: true
+            copyrightText: "本文采用 <a href=\"https://creativecommons.org/licenses/by-nc-sa/4.0/\" target=\"_blank\" class=\"copyright-license\">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。"
           children:
             - $formkit: switch
               id: post_copyright_enabled
@@ -757,6 +810,8 @@ spec:
         - $formkit: group
           name: shareConfig
           label: 分享按钮
+          value:
+            showShare: true
           children:
             - $formkit: switch
               id: post_share_enabled
@@ -767,6 +822,11 @@ spec:
         - $formkit: group
           name: rewardConfig
           label: 打赏设置
+          value:
+            showReward: false
+            rewardQrCode: ""
+            rewardTitle: "赞赏支持"
+            rewardText: "如果觉得文章对你有帮助，可以请作者喝杯咖啡 ☕"
           children:
             - $formkit: switch
               id: post_reward_enabled
@@ -798,6 +858,12 @@ spec:
         - $formkit: group
           name: icpConfig
           label: ICP 备案设置
+          value:
+            showIcp: false
+            icp: ""
+            icpUrl: "https://beian.miit.gov.cn/"
+            icpLogoUrl: ""
+            icpLogoSize: 20
           children:
             - $formkit: switch
               id: footer_icp_enabled
@@ -835,6 +901,10 @@ spec:
         - $formkit: group
           name: policeConfig
           label: 公安备案设置
+          value:
+            showPolice: false
+            policeRecord: ""
+            policeRecordUrl: "http://www.beian.gov.cn/portal/registerSystemInfo"
           children:
             - $formkit: switch
               id: footer_police_enabled
@@ -857,6 +927,10 @@ spec:
         - $formkit: group
           name: runtimeConfig
           label: 运行时间设置
+          value:
+            showRuntime: false
+            startYear: "2024"
+            runtimeStartDate: "2024-01-01"
           children:
             - $formkit: switch
               id: footer_runtime_enabled
@@ -880,6 +954,8 @@ spec:
         - $formkit: group
           name: rssConfig
           label: RSS 订阅
+          value:
+            showRss: true
           children:
             - $formkit: switch
               id: footer_rss_enabled
@@ -889,6 +965,8 @@ spec:
         - $formkit: group
           name: poweredByConfig
           label: Powered by
+          value:
+            showPoweredBy: true
           children:
             - $formkit: switch
               id: footer_powered_enabled
@@ -899,6 +977,11 @@ spec:
         - $formkit: group
           name: providerConfig
           label: 服务商标识
+          value:
+            showProvider: false
+            providerLogo: ""
+            providerName: ""
+            providerUrl: ""
           children:
             - $formkit: switch
               id: footer_provider_enabled
@@ -926,6 +1009,8 @@ spec:
         - $formkit: group
           name: privacyConfig
           label: 隐私政策
+          value:
+            showPrivacy: true
           children:
             - $formkit: switch
               id: footer_privacy_enabled
